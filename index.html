@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>App Studio - Le Mie App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #1e293b; /* Testo scuro per ottima leggibilità */
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+      background-color: #f8faff;
+    }
+
+    /* SFONDO ANIMATO CON BLOB COLORATI */
+    .bg-blobs {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      background: #fdfbfb;
+    }
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.6;
+      animation: floatBlob 12s infinite alternate ease-in-out;
+    }
+    .blob-1 { width: 400px; height: 400px; background: #ff9a9e; top: -10%; left: -10%; }
+    .blob-2 { width: 500px; height: 500px; background: #a1c4fd; bottom: -20%; right: -10%; animation-delay: -3s; }
+    .blob-3 { width: 350px; height: 350px; background: #fbc2eb; top: 40%; left: 30%; animation-delay: -6s; }
+    .blob-4 { width: 450px; height: 450px; background: #c2e9fb; top: 10%; right: 20%; animation-delay: -9s; }
+
+    @keyframes floatBlob {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(40px, -40px) scale(1.1); }
+    }
+
+    /* HEADER GLASSMORPHISM */
+    header {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    nav a {
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 30px;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: #ff0844; }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(10px);
+      color: #ff0844;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 999px;
+      padding: 8px 24px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 span {
+      background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto;
+      color: #475569;
+      font-size: 1.2rem;
+      line-height: 1.6;
+      font-weight: 600;
+    }
+
+    /* GRID */
+    .grid-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    /* CARD GLASSMORPHISM VIBRANTE */
+    .card {
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      border-radius: 30px;
+      padding: 40px 32px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+    
+    /* Filigrana gigante sullo sfondo della card per non renderla anonima */
+    .card::before {
+      position: absolute;
+      right: -10px;
+      bottom: -20px;
+      font-size: 10rem;
+      opacity: 0.08;
+      z-index: 0;
+      transition: transform 0.4s;
+      line-height: 1;
+    }
+    .card-whatsapp::before { content: '💬'; }
+    .card-comic::before { content: '💥'; }
+    .card-grammar::before { content: '📚'; }
+    .card-tailwind::before { content: '🌊'; }
+
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 0 0 2px #fff;
+      background: rgba(255, 255, 255, 0.6);
+    }
+    .card:hover::before {
+      transform: scale(1.1) rotate(-10deg);
+    }
+
+    /* Contenuto card in primo piano rispetto alla filigrana */
+    .card-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .card-icon-wrapper {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      border: 2px solid rgba(255,255,255,0.8);
+    }
+    
+    /* Colori specifici per ogni icona */
+    .card-whatsapp .card-icon-wrapper { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .card-comic .card-icon-wrapper { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+    .card-grammar .card-icon-wrapper { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+    .card-tailwind .card-icon-wrapper { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+    .card-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card-whatsapp .card-tag { color: #059669; }
+    .card-comic .card-tag { color: #ea580c; }
+    .card-grammar .card-tag { color: #7c3aed; }
+    .card-tailwind .card-tag { color: #0284c7; }
+
+    .card h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      line-height: 1.2;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 1.05rem;
+      color: #334155;
+      line-height: 1.6;
+      font-weight: 600;
+      flex: 1;
+    }
+    .card-arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 800;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      transition: gap 0.3s;
+    }
+    .card-whatsapp .card-arrow { color: #059669; }
+    .card-comic .card-arrow { color: #ea580c; }
+    .card-grammar .card-arrow { color: #7c3aed; }
+    .card-tailwind .card-arrow { color: #0284c7; }
+    
+    .card:hover .card-arrow { gap: 16px; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #475569;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      header { padding: 16px 24px; }
+      nav { display: none; }
+      .hero { padding: 60px 20px 40px; }
+      .hero h1 { font-size: 2.5rem; }
+      .card { padding: 30px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sfondo animato a blob -->
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+</div>
+
+<header>
+  <div class="logo">AppStudio</div>
+
+</header>
+
+<section class="hero">
+  <div class="hero-badge">Esplora i progetti</div>
+  <h1>Creatività & Codice<br /><span>Senza Limiti</span></h1>
+  <p>Le mie applicazioni web personalizzate. Seleziona una card per aprire il tool dedicato.</p>
+</section>
+
+<div class="grid-section">
+  <div class="cards-grid">
+
+    <!-- WhatsApp Chat Generator -->
+    <a href="https://whats-app-chat-designer.vercel.app/" class="card card-whatsapp" target="_blank">
+      <div class="card-content">
+        <div class="card-icon-wrapper">💬</div>
+        <div class="card-tag">Social Tool</div>
+        <h2>WA Generator</h2>
+        <p>Crea chat WhatsApp realistiche in pochi clic</p>
+        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
+      </div>
+    </a>
+
+    <!-- Comic Studio -->
+    <a href="https://comix-studio.vercel.app/" class="card card-comic" target="_blank">
+      <div class="card-content">
+        <div class="card-icon-wrapper">🎨</div>
+        <div class="card-tag">Editor Visuale</div>
+        <h2>Comic Studio</h2>
+        <p>Il tuo spazio  comporre vignette e storyboard direttamente nel browser.</p>
+        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
+      </div>
+    </a>
+
+    <!-- GrammarForge -->
+    <a href="https://scottino2019-glitch.github.io/GrammarForge/" class="card card-grammar" target="_blank">
+      <div class="card-content">
+        <div class="card-icon-wrapper">📖</div>
+        <div class="card-tag">Educazione</div>
+        <h2>GrammarForge</h2>
+        <p>Piattaforma interattiva per creare pdf e html di lezioni di grammatica</p>
+        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
+      </div>
+    </a>
+
+    <!-- TailwindCoding -->
+    <a href="https://tailwind-code-lab.vercel.app/" class="card card-tailwind" target="_blank">
+      <div class="card-content">
+        <div class="card-icon-wrapper">🧩</div>
+        <div class="card-tag">Dev Tools</div>
+        <h2>TailwindCoding</h2>
+        <p>Libreria di componenti e snippet pronti da incollare e crearne di nuovi per accelerare il tuo workflow CSS.</p>
+        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 AppStudio · Fatto con ❤️
+</footer>
+
+</body>
+</html>
