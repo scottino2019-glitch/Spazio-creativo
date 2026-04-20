@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quaderno Editor Pro</title>
+    <!-- Carichiamo Tailwind e font eleganti -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Stili Base */
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* La Sidebar Elegante */
+        .sidebar {
+            width: 280px;
+            background-color: #1e293b; /* Blu notte scuro */
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #0f172a;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin: 0;
+        }
+
+        /* Lista dei quaderni nella sidebar */
+        .notebook-list {
+            padding: 15px 10px;
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .notebook-item {
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: transparent;
+            color: #94a3b8;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .notebook-item:hover {
+            background-color: #334155;
+            color: #f8fafc;
+        }
+
+        /* Quaderno Selezionato */
+        .notebook-item.active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .notebook-icon {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* ====================================
+           L'AREA DELL'EDITOR (FOGLIO A RIGHE)
+           ==================================== */
+        .editor-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        /* Toolbar in alto (Nome quaderno e pulsanti) */
+        .editor-toolbar {
+            height: 70px;
+            padding: 0 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        #current-book-title {
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Il Foglio di carta vero e proprio */
+        .paper-container {
+            flex-grow: 1;
+            padding: 0 30px 30px 30px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Margine sinistro rosso (Stile quaderno Pigna) */
+        .paper-container::before {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; left: 80px;
+            width: 2px;
+            background-color: #fca5a5;
+            z-index: 1;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 100%;
+            min-height: 800px;
+            background-color: transparent;
+            /* Righe azzurre per scrivere */
+            background-image: linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+            background-size: 100% 40px;
+            line-height: 40px; /* Deve combaciare con l'altezza della riga */
+            font-size: 1.25rem;
+            font-family: 'Courier New', Courier, monospace;
+            color: #334155;
+            padding: 40px 10px 40px 70px; /* Spazio per evitare la riga rossa e partire allineati */
+            border: none;
+            resize: none;
+            outline: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Tasto Salva in basso a destra */
+        .save-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 20;
+        }
+        .save-btn:hover { transform: scale(1.05); }
+
+        /* Notifica Salvataggio */
+        #save-toast {
+            position: fixed;
+            bottom: 30px; left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #1e293b; color: white;
+            padding: 10px 20px; border-radius: 8px;
+            opacity: 0; transition: all 0.3s;
+            z-index: 100; font-weight: 600;
+        }
+        #save-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* Mobile Layout */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-shrink: 0; border-right: none; border-bottom: 2px solid #0f172a; }
+            .notebook-list { flex-direction: row; overflow-x: auto; padding: 10px; gap: 10px; }
+            .notebook-item { width: auto; white-space: nowrap; padding: 8px 15px; }
+            .paper-container { padding: 0 15px; }
+            .paper-container::before { left: 45px; }
+            .notes-textarea { padding-left: 45px; font-size: 1rem; line-height: 35px; background-size: 100% 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR (I tuoi quaderni) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <span class="text-2xl">📚</span>
+            <h1>Libreria</h1>
+        </div>
+        <div class="notebook-list">
+            <!-- I bottoni chiamano la funzione loadBook con nome ed emoji -->
+            <button class="notebook-item active" onclick="loadBook('Grammatica Cinese', '📒', this)">
+                <span class="notebook-icon">📒</span> Grammatica Cinese
+            </button>
+            <button class="notebook-item" onclick="loadBook('Idee', '💡', this)">
+                <span class="notebook-icon">💡</span> Idee & Progetti
+            </button>
+            <button class="notebook-item" onclick="loadBook('Vari', '🧾', this)">
+                <span class="notebook-icon">🧾</span> Appunti Vari
+            </button>
+            <button class="notebook-item" onclick="loadBook('Vocabolario HSK', '🐉', this)">
+                <span class="notebook-icon">🐉</span> Vocabolario HSK
+            </button>
+            <button class="notebook-item" onclick="loadBook('Coreano', '🐅', this)">
+                <span class="notebook-icon">🐅</span> Grammatica Coreana
+            </button>
+            <button class="notebook-item" onclick="loadBook('Diario', '📓', this)">
+                <span class="notebook-icon">📓</span> Diario Personale
+            </button>
+        </div>
+    </aside>
+
+    <!-- AREA EDITOR (Il foglio) -->
+    <main class="editor-area">
+        
+        <!-- Toolbar con Titolo -->
+        <header class="editor-toolbar">
+            <h2 id="current-book-title"><span id="current-emoji">📒</span> Grammatica Cinese</h2>
+            
+            <!-- Tools veloci (pulisci, copia) -->
+            <div class="flex gap-4">
+                <button onclick="clearBook()" class="text-gray-500 hover:text-red-500 font-bold transition-colors">🗑 Svuota</button>
+                <button onclick="copyContent()" class="text-gray-500 hover:text-blue-500 font-bold transition-colors">📋 Copia</button>
+            </div>
+        </header>
+
+        <!-- Il quaderno a righe -->
+        <div class="paper-container">
+            <textarea id="notes-content" class="notes-textarea" spellcheck="false" placeholder="Inizia a scrivere qui i tuoi appunti..."></textarea>
+            
+            <button class="save-btn" onclick="saveNotes()">
+                💾 Salva Appunti
+            </button>
+        </div>
+        
+    </main>
+
+    <!-- Notifica a scomparsa -->
+    <div id="save-toast">✨ Appunti salvati con successo!</div>
+
+    <script>
+        // LOGICA DI SALVATAGGIO E GESTIONE QUADERNI
+        let currentBook = 'Grammatica Cinese';
+        const textArea = document.getElementById('notes-content');
+        const titleEl = document.getElementById('current-book-title');
+        const toast = document.getElementById('save-toast');
+
+        // Carica all'avvio il quaderno di default
+        window.onload = () => {
+            textArea.value = localStorage.getItem('notes_' + currentBook) || '';
+        };
+
+        // Funzione per cambiare quaderno
+        function loadBook(bookName, emoji, btnElement) {
+            // Salva prima di cambiare pagina!
+            saveNotes(false);
+            
+            // Aggiorna lo stato visivo
+            currentBook = bookName;
+            titleEl.innerHTML = `<span>${emoji}</span> ${bookName}`;
+            
+            // Aggiorna bottoni attivi nella sidebar
+            document.querySelectorAll('.notebook-item').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Carica il testo salvato nel localStorage (se esiste)
+            textArea.value = localStorage.getItem('notes_' + bookName) || '';
+            
+            // Su mobile, quando si sceglie un quaderno fa scroll verso il basso per mostrare il foglio
+            if(window.innerWidth <= 768) {
+                document.querySelector('.editor-area').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Funzione per salvare
+        function saveNotes(showToast = true) {
+            localStorage.setItem('notes_' + currentBook, textArea.value);
+            
+            if(showToast) {
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2500);
+            }
+        }
+
+        // Auto-salvataggio intelligente (salva in background ogni 10 secondi se ci sono state modifiche)
+        let typingTimer;
+        textArea.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => { saveNotes(false); }, 5000);
+        });
+
+        // Svuota il quaderno
+        function clearBook() {
+            if(confirm(`Sei sicuro di voler svuotare il quaderno "${currentBook}"? L'azione è irreversibile.`)) {
+                textArea.value = '';
+                saveNotes(false);
+            }
+        }
+
+        // Copia negli appunti
+        function copyContent() {
+            textArea.select();
+            document.execCommand('copy');
+            alert("Appunti copiati!");
+            // Deseleziona
+            window.getSelection().removeAllRanges();
+        }
+
+        // Evita che premendo TAB si esca dalla textarea, aggiungendo uno spazio invece
+        textArea.addEventListener('keydown', function(e) {
+            if (e.key == 'Tab') {
+                e.preventDefault();
+                var start = this.selectionStart;
+                var end = this.selectionEnd;
+                this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
+                this.selectionStart = this.selectionEnd = start + 1;
+            }
+        });
+    </script>
+</body>
+</html>

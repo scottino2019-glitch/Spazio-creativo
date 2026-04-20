@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mia Dashboard Mosaico</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Sfondo moderno scuro */
+            background-color: #0f172a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(167, 139, 250, 0.15) 0px, transparent 50%);
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #e2e8f0;
+        }
+      
+
+                /* =========================================
+           STILE DEI PANNELLI E DEGLI IFRAME
+           ========================================= */
+        .panel {
+            background: #1e293b; 
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Mantiene gli angoli arrotondati perfetti */
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .panel:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px); /* Leggerissimo sollevamento elegante */
+        }
+
+        .panel-header {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0; /* Evita che l'header si schiacci se l'app sotto è ingombrante */
+        }
+
+        /* Il contenitore dell'app vera e propria */
+        .panel iframe {
+            flex-grow: 1;
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent; /* Permette al tema scuro del mosaico di vedersi se l'app non ha sfondo */
+        }
+
+                /* =========================================
+           STILE SPECIFICO PER L'AGENDA VERTICALE
+           ========================================= */
+        .area-agenda {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centra orizzontalmente l'iframe nel pannello largo */
+            background-color: #0f172a; /* Uno sfondo scuro per far risaltare la pagina dell'agenda */
+        }
+
+        .area-agenda iframe {
+            width: 100%;
+            max-width: 480px; /* Larghezza tipica di un tablet/quaderno verticale */
+            height: 100%;
+            border: none;
+            /* Diamo un'ombra all'iframe per farlo sembrare un quaderno appoggiato sul tavolo */
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+            border-radius: 12px;
+            background: #ffffff; /* Sfondo del quaderno */
+        }
+
+        /* =========================================
+           ASSEGNAZIONE DELLE AREE DELLA GRIGLIA
+           ========================================= */
+        .area-brainstorming { grid-area: brainstorming; }
+        .area-appuntamenti  { grid-area: appuntamenti; }
+        .area-agenda        { grid-area: agenda; }
+        .area-appunti       { grid-area: appunti; }
+
+        /* =========================================
+           LAYOUT DESKTOP PULITO (Workspace + Sidebar)
+           ========================================= */
+        .mosaico-container {
+            display: grid;
+            gap: 30px; /* Più spazio tra i pannelli per ridurre il "caos" */
+            max-width: 1500px;
+            margin: 0 auto;
+            padding-bottom: 50px;
+
+            /* 2 Colonne: Spazio Lavoro flessibile (1fr) + Calendario (400px) */
+            grid-template-columns: 1fr 400px; 
+            
+            grid-template-areas: 
+                "brainstorming appuntamenti"
+                "agenda        appuntamenti"
+                "appunti       appunti";
+        }
+
+        /* Altezze precise per far respirare le app sul Desktop */
+        .area-brainstorming { 
+            grid-area: brainstorming; 
+            height: 600px; /* Bello spazioso per le mappe mentali */
+        }
+        
+        .area-agenda { 
+            grid-area: agenda; 
+            height: 700px; /* L'altezza perfetta per il quaderno */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .area-agenda iframe {
+            width: 100%;
+            max-width: 480px; 
+            height: 100%;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5); 
+        }
+
+        .area-appuntamenti { 
+            grid-area: appuntamenti; 
+            /* Prende tutta l'altezza di Brainstorming + Agenda automaticamente */
+            height: 100%; 
+        }
+
+        .area-appunti { 
+            grid-area: appunti; 
+            height: 500px; 
+        }
+
+        /* =========================================
+           RISOLUZIONE PROBLEMA MOBILE (Niente più schiacciamenti)
+           ========================================= */
+        @media (max-width: 1024px) {
+            .mosaico-container {
+                grid-template-columns: 1fr; /* Torna a 1 colonna */
+                grid-template-areas: 
+                    "appuntamenti"
+                    "brainstorming"
+                    "agenda"
+                    "appunti";
+            }
+
+            /* IL SEGRETO PER IL MOBILE */
+            .panel {
+                /* Ogni app prende l'85% dello schermo del cellulare! */
+                height: 85vh !important; 
+                min-height: 600px; /* Altezza minima di sicurezza */
+            }
+
+            .area-agenda iframe {
+                max-width: 100%; /* Su mobile il quaderno prende tutto lo spazio */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Control Center</h1>
+    </header>
+
+    <main class="mosaico-container">
+
+        <!-- 1. BRAINSTORMING (In alto) -->
+        <div class="panel area-brainstorming">
+            <div class="panel-header">💡 Brainstorming</div>
+            <!-- Inserisci qui il nome del tuo file html per il brainstorming -->
+            <iframe src="brainstorming.html" title="Brainstorming App"></iframe>
+        </div>
+
+        <!-- 2. APPUNTAMENTI (A destra, si estende su due righe) -->
+        <div class="panel area-appuntamenti">
+            <div class="panel-header">🗓️ Appuntamenti</div>
+            <!-- Questo è il calendario che abbiamo fatto prima -->
+            <iframe src="appuntamenti.html" title="Calendario Appuntamenti"></iframe>
+        </div>
+
+        <!-- 3. AGENDA (Al centro, la parte principale) -->
+        <div class="panel area-agenda">
+            <div class="panel-header">📓 Agenda</div>
+            <!-- Inserisci qui il nome del tuo file html per l'agenda -->
+            <iframe src="agenda.html" title="Agenda App"></iframe>
+        </div>
+
+        <!-- 4. QUADERNO APPUNTI (In basso, prende tutta la larghezza) -->
+        <div class="panel area-appunti">
+            <div class="panel-header">📝 Quaderno Appunti</div>
+            <!-- Inserisci qui il nome del tuo file html per gli appunti -->
+            <iframe src="appunti.html" title="Appunti App"></iframe>
+        </div>
+
+    </main>
+
+</body>
+</html>
