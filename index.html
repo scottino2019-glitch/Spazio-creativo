@@ -1,340 +1,1232 @@
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Le Mie App</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Hub - Scrivania Caotica</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      color: #1e293b; /* Testo scuro per ottima leggibilità */
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      background-color: #f8faff;
-    }
+        body {
+            /* Sfondo scuro e profondo */
+            background-color: #121826;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(76, 29, 149, 0.2), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(15, 118, 110, 0.2), transparent 25%);
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 120px 20px 40px 20px; /* Aumentato il padding-top per la barra fissa */
+            overflow-x: hidden;
+        }
+                /* =========================================
+           SFONDO EMOJI SCRIVANIA (Texture in filigrana)
+           ========================================= */
+        .bg-emojis {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1; /* Rigorosamente dietro tutto, attaccato allo sfondo */
+            pointer-events: none; /* Fondamentale: non blocca i click del mouse sulle app */
+            overflow: hidden;
+        }
 
-    /* SFONDO ANIMATO CON BLOB COLORATI */
-    .bg-blobs {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      overflow: hidden;
-      background: #fdfbfb;
-    }
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.6;
-      animation: floatBlob 12s infinite alternate ease-in-out;
-    }
-    .blob-1 { width: 400px; height: 400px; background: #ff9a9e; top: -10%; left: -10%; }
-    .blob-2 { width: 500px; height: 500px; background: #a1c4fd; bottom: -20%; right: -10%; animation-delay: -3s; }
-    .blob-3 { width: 350px; height: 350px; background: #fbc2eb; top: 40%; left: 30%; animation-delay: -6s; }
-    .blob-4 { width: 450px; height: 450px; background: #c2e9fb; top: 10%; right: 20%; animation-delay: -9s; }
+        .bg-emoji {
+            position: absolute;
+            opacity: 0.04; /* Opacità bassissima: crea un effetto "filigrana" elegante */
+            user-select: none;
+            /* Animazione lentissima per dare un tocco di vita al multiverso */
+            animation: floatEmoji 20s infinite ease-in-out alternate;
+        }
 
-    @keyframes floatBlob {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(40px, -40px) scale(1.1); }
-    }
+        @keyframes floatEmoji {
+            0% { transform: translateY(0px) rotate(var(--rot)); }
+            100% { transform: translateY(-30px) rotate(var(--rot)); }
+        }
 
-    /* HEADER GLASSMORPHISM */
-    header {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-      padding: 20px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .logo {
-      font-size: 1.6rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-    }
-    nav a {
-      color: #334155;
-      text-decoration: none;
-      font-weight: 600;
-      margin-left: 30px;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: #ff0844; }
+        /* =========================================
+           LA MENU DOCK SUPERIORE (Glassmorfismo)
+           ========================================= */
+        .top-dock {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
 
-    /* HERO */
-    .hero {
-      text-align: center;
-      padding: 80px 24px 60px;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(10px);
-      color: #ff0844;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      border-radius: 999px;
-      padding: 8px 24px;
-      font-size: 0.9rem;
-      font-weight: 800;
-      margin-bottom: 24px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    .hero h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      color: #0f172a;
-    }
-    .hero h1 span {
-      background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero p {
-      max-width: 600px;
-      margin: 0 auto;
-      color: #475569;
-      font-size: 1.2rem;
-      line-height: 1.6;
-      font-weight: 600;
-    }
+        .dock-item {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            font-size: 1.6rem;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: white;
+            border: 1px solid transparent;
+        }
 
-    /* GRID */
-    .grid-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px 100px;
-    }
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
+        .dock-item:hover {
+            transform: translateY(-8px) scale(1.15);
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 10;
+        }
 
-    /* CARD GLASSMORPHISM VIBRANTE */
-    .card {
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      border-radius: 30px;
-      padding: 40px 32px;
-      text-decoration: none;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255,255,255,0.5);
-    }
-    
-    /* Filigrana gigante sullo sfondo della card per non renderla anonima */
-    .card::before {
-      position: absolute;
-      right: -10px;
-      bottom: -20px;
-      font-size: 10rem;
-      opacity: 0.08;
-      z-index: 0;
-      transition: transform 0.4s;
-      line-height: 1;
-    }
-    .card-whatsapp::before { content: '💬'; }
-    .card-comic::before { content: '💥'; }
-    .card-grammar::before { content: '📚'; }
-    .card-tailwind::before { content: '🌊'; }
+        /* Colori specifici al passaggio del mouse per ogni ambiente */
+        .dock-item.android:hover {
+            box-shadow: 0 10px 20px rgba(61, 220, 132, 0.4);
+            border-color: #3ddc84;
+            color: #3ddc84;
+        }
+        
+        .dock-item.school:hover {
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+            border-color: #ef4444;
+        }
 
-    .card:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 0 0 2px #fff;
-      background: rgba(255, 255, 255, 0.6);
-    }
-    .card:hover::before {
-      transform: scale(1.1) rotate(-10deg);
-    }
+        .dock-item.windows:hover {
+            box-shadow: 0 10px 20px rgba(0, 164, 239, 0.4);
+            border-color: #00a4ef;
+        }
 
-    /* Contenuto card in primo piano rispetto alla filigrana */
-    .card-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
+        /* Tooltip a comparsa */
+        .dock-item::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: #0f172a;
+            color: #f8fafc;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
 
-    .card-icon-wrapper {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-      border: 2px solid rgba(255,255,255,0.8);
-    }
-    
-    /* Colori specifici per ogni icona */
-    .card-whatsapp .card-icon-wrapper { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-    .card-comic .card-icon-wrapper { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
-    .card-grammar .card-icon-wrapper { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-    .card-tailwind .card-icon-wrapper { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .dock-item:hover::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) scale(1);
+        }
 
-    .card-tag {
-      font-size: 0.8rem;
-      font-weight: 800;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .card-whatsapp .card-tag { color: #059669; }
-    .card-comic .card-tag { color: #ea580c; }
-    .card-grammar .card-tag { color: #7c3aed; }
-    .card-tailwind .card-tag { color: #0284c7; }
+        /* =========================================
+           RESTO DELLA PAGINA
+           ========================================= */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
 
-    .card h2 {
-      font-size: 1.6rem;
-      font-weight: 800;
-      line-height: 1.2;
-      color: #0f172a;
-      margin-bottom: 12px;
-    }
-    .card p {
-      font-size: 1.05rem;
-      color: #334155;
-      line-height: 1.6;
-      font-weight: 600;
-      flex: 1;
-    }
-    .card-arrow {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 1rem;
-      font-weight: 800;
-      margin-top: 24px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(0,0,0,0.05);
-      transition: gap 0.3s;
-    }
-    .card-whatsapp .card-arrow { color: #059669; }
-    .card-comic .card-arrow { color: #ea580c; }
-    .card-grammar .card-arrow { color: #7c3aed; }
-    .card-tailwind .card-arrow { color: #0284c7; }
-    
-    .card:hover .card-arrow { gap: 16px; }
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 4px 20px rgba(255,255,255,0.2);
+            margin-bottom: 10px;
+        }
 
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 40px;
-      color: #475569;
-      font-size: 0.95rem;
-      font-weight: 600;
-      background: rgba(255, 255, 255, 0.4);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(255, 255, 255, 0.6);
-    }
+        .desk-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-    @media (max-width: 768px) {
-      header { padding: 16px 24px; }
-      nav { display: none; }
-      .hero { padding: 60px 20px 40px; }
-      .hero h1 { font-size: 2.5rem; }
-      .card { padding: 30px 24px; }
-    }
-  </style>
+        .app-group {
+            position: relative;
+            height: 400px;
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .app-group:hover {
+            transform: rotate(0deg) scale(1.05) translateY(-10px) !important;
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .group-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .app-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .app-list a {
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        /* 1. LA LAVAGNA */
+        .card-lavagna {
+            background-color: #2c3e2e;
+            border: 14px solid #5c4033;
+            border-radius: 8px;
+            transform: rotate(-3deg);
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.5), 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .card-lavagna::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.05"/></svg>');
+            pointer-events: none;
+        }
+        .card-lavagna .group-title {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            color: rgba(255, 255, 255, 0.9);
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+        .card-lavagna a {
+            color: rgba(255, 255, 255, 0.85);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            font-size: 1.1rem;
+        }
+        .card-lavagna a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transform: translateX(10px);
+        }
+
+        /* 2. L'EDITOR */
+        .card-editor {
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            transform: rotate(2deg) translateY(20px);
+            padding: 0;
+            border: 1px solid #333;
+        }
+        .editor-header {
+            background: #2d2d2d;
+            height: 35px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 8px;
+        }
+        .mac-btn {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+        .mac-btn.close { background: #ff5f56; }
+        .mac-btn.min { background: #ffbd2e; }
+        .mac-btn.max { background: #27c93f; }
+        .editor-content {
+            padding: 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #d4d4d4;
+        }
+        .card-editor .group-title {
+            font-family: 'Consolas', monospace;
+            color: #569cd6;
+            font-size: 1.4rem;
+        }
+        .card-editor a {
+            color: #ce9178;
+            font-family: 'Consolas', monospace;
+        }
+        .card-editor a::before {
+            content: 'import ';
+            color: #c586c0;
+        }
+        .card-editor a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #007acc;
+        }
+
+        /* 3. L'AGENDA */
+        .card-agenda {
+            background-color: #fdf6e3;
+            background-image: repeating-linear-gradient(transparent, transparent 29px, #d1d5db 30px);
+            background-position: 0 40px;
+            border-radius: 4px 16px 16px 4px;
+            transform: rotate(-1.5deg) translateY(-10px);
+            color: #1f2937;
+            border-left: 25px solid #831843;
+            box-shadow: inset 8px 0 15px rgba(0,0,0,0.2), 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .card-agenda .group-title {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: #831843;
+            margin-left: 10px;
+        }
+        .card-agenda a {
+            color: #374151;
+            font-family: 'Georgia', serif;
+            font-size: 1.1rem;
+            margin-left: 10px;
+            border-bottom: 1px solid transparent;
+        }
+        .card-agenda a:hover {
+            color: #be123c;
+            transform: scale(1.02);
+            font-weight: bold;
+        }
+
+        /* 4. IL LIBRO ANTICO */
+        .card-libro {
+            background-color: #0f172a;
+            border-radius: 4px 18px 18px 4px;
+            transform: rotate(3.5deg) translateY(10px);
+            border: 3px solid #ca8a04;
+            position: relative;
+            box-shadow: inset -5px 0 15px rgba(0,0,0,0.5), inset 10px 0 20px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .card-libro::before {
+            content: '';
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 1px solid #ca8a04;
+            pointer-events: none;
+            border-radius: 2px 10px 10px 2px;
+        }
+        .card-libro .group-title {
+            font-family: 'Times New Roman', Times, serif;
+            color: #facc15;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 20px;
+        }
+        .card-libro a {
+            color: #e2e8f0;
+            font-family: 'Times New Roman', Times, serif;
+            text-align: center;
+            font-size: 1.2rem;
+            border-top: 1px solid rgba(202, 138, 4, 0.3);
+            padding: 15px 10px;
+        }
+        .card-libro a:last-child {
+            border-bottom: 1px solid rgba(202, 138, 4, 0.3);
+        }
+        .card-libro a:hover {
+            color: #facc15;
+            background: rgba(202, 138, 4, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .app-group {
+                transform: rotate(0) translateY(0) !important;
+                height: auto;
+                min-height: 350px;
+            }
+            .desk-container { gap: 30px; }
+            .top-dock { padding: 8px 16px; gap: 10px; }
+            .dock-item { width: 40px; height: 40px; font-size: 1.3rem; }
+            body { padding-top: 100px; }
+        }
+
+                /* =========================================
+           5. LA CARTELLA (Utility / Progetti Misti)
+           ========================================= */
+        .card-cartella {
+            background-color: #e5c07b; /* Color cartone/crema */
+            border-radius: 0 12px 12px 12px;
+            transform: rotate(-2.5deg) translateY(5px);
+            border: 1px solid #d1a551;
+            box-shadow: inset -5px -5px 15px rgba(0,0,0,0.05), 0 20px 40px rgba(0,0,0,0.4);
+            margin-top: 15px; /* Spazio per la linguetta */
+        }
+        .card-cartella::before {
+            content: 'ARCHIVIO';
+            position: absolute;
+            top: -25px; left: -1px;
+            background-color: #e5c07b;
+            padding: 4px 16px;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #d1a551;
+            border-bottom: none;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #8c6b32;
+            font-size: 0.9rem;
+        }
+        .card-cartella .group-title {
+            font-family: 'Courier New', Courier, monospace;
+            color: #5c4033;
+            border-bottom: 2px solid #d1a551;
+            padding-bottom: 5px;
+        }
+        .card-cartella a {
+            color: #4a3b22;
+            font-family: system-ui, sans-serif;
+            font-weight: 500;
+        }
+        .card-cartella a:hover {
+            background: rgba(0,0,0,0.05);
+            padding-left: 15px;
+        }
+
+        /* =========================================
+           6. IL BLOCCO SCHIZZI (Design / UI)
+           ========================================= */
+        .card-blocco {
+            background-color: #fafafa;
+            /* Griglia a quadretti */
+            background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: 4px 16px 16px 4px;
+            transform: rotate(4deg);
+            border-left: 15px solid #cbd5e1; /* Bordo metallico spirale */
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        /* Anelli della spirale */
+        .card-blocco::before {
+            content: '';
+            position: absolute;
+            left: -10px; top: 20px; bottom: 20px; width: 15px;
+            background-image: radial-gradient(circle, #334155 4px, transparent 5px);
+            background-size: 15px 25px;
+        }
+        .card-blocco .group-title {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #3b82f6; /* Blu penna bic */
+            transform: rotate(-2deg);
+        }
+        .card-blocco a {
+            color: #475569;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        .card-blocco a:hover {
+            color: #ef4444; /* Rosso correzione */
+            text-decoration: underline wavy #ef4444;
+        }
+
+        /* =========================================
+           7. IL CABINATO ARCADE (Giochi / Esperimenti)
+           ========================================= */
+        .card-arcade {
+            background-color: #111;
+            border: 8px solid #db2777; /* Rosa Neon */
+            border-radius: 16px 16px 4px 4px;
+            transform: rotate(-1deg) translateY(-10px);
+            box-shadow: 0 0 15px rgba(219, 39, 119, 0.5), inset 0 0 20px #000;
+        }
+        /* Effetto schermo scanline */
+        .card-arcade::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            border-radius: 8px;
+        }
+        .card-arcade .group-title {
+            font-family: 'Impact', sans-serif;
+            color: #34d399; /* Verde Neon */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px #34d399;
+        }
+        .card-arcade a {
+            color: #f87171;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+        .card-arcade a::before {
+            content: '> ';
+            color: #34d399;
+            opacity: 0;
+        }
+        .card-arcade a:hover {
+            color: #fff;
+            text-shadow: 0 0 5px #fff;
+        }
+        .card-arcade a:hover::before {
+            opacity: 1;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* =========================================
+           8. LA BACHECA (To-Do / Appunti)
+           ========================================= */
+        .card-bacheca {
+            background-color: #d4a373; /* Colore sughero */
+            border: 12px solid #8b5a2b; /* Cornice in legno */
+            border-radius: 6px;
+            transform: rotate(2.5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        /* Texture sughero ruvida */
+        .card-bacheca::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.12"/></svg>');
+            pointer-events: none;
+        }
+        .card-bacheca .group-title {
+            font-family: 'Georgia', serif;
+            background: #fff9c4; /* Post-it giallo */
+            color: #333;
+            padding: 5px 15px;
+            display: inline-block;
+            transform: rotate(-3deg);
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        /* Puntina rossa */
+        .card-bacheca .group-title::before {
+            content: '📍';
+            position: absolute;
+            top: -10px; right: -10px;
+            font-size: 1.2rem;
+        }
+        .card-bacheca a {
+            background: #fff;
+            color: #333;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid #ef4444; /* Etichetta rossa */
+        }
+        .card-bacheca a:hover {
+            transform: scale(1.03) rotate(1deg);
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+        }
+                /* Ferma l'animazione hover per le card interattive */
+        .interactive-desk:hover {
+            transform: rotate(2.5deg) !important; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4) !important;
+            cursor: default;
+        }
+
+        /* Stile del form della bacheca */
+        .postit-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .postit-form input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px dashed #8b5a2b;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            outline: none;
+        }
+
+        .postit-form button {
+            background: #fff9c4;
+            border: 2px solid #8b5a2b;
+            border-radius: 4px;
+            padding: 0 15px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .postit-form button:hover {
+            background: #facc15;
+            transform: scale(1.1);
+        }
+
+        /* Stile dei post-it generati */
+        .notes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .post-it {
+            background: #fff9c4;
+            padding: 10px 15px 10px 10px;
+            border-radius: 2px 2px 10px 2px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 0.9rem;
+            color: #333;
+            box-shadow: 2px 4px 6px rgba(0,0,0,0.15);
+            position: relative;
+            width: calc(50% - 5px); /* Due post-it per riga */
+            word-wrap: break-word;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        /* Colori alternati per i post-it */
+        .post-it:nth-child(even) { background: #bbf7d0; transform: rotate(2deg); }
+        .post-it:nth-child(odd) { background: #fecaca; transform: rotate(-2deg); }
+        .post-it:nth-child(3n) { background: #bfdbfe; transform: rotate(1deg); }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: rgba(0,0,0,0.3);
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .delete-btn:hover { color: red; }
+                /* Stili per il File Manager */
+        .fm-view {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            flex-grow: 1;
+        }
+
+        .fm-btn-new {
+            background-color: #d1a551;
+            color: #fff;
+            border: none;
+            padding: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .fm-btn-new:hover { background-color: #b88d3b; }
+
+        .fm-file-list {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .fm-file-item {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px dashed #d1a551;
+            padding: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #4a3b22;
+        }
+        .fm-file-item:hover { background: rgba(255, 255, 255, 0.7); cursor: pointer; }
+
+        .fm-file-name { flex-grow: 1; }
+        
+        .fm-delete-btn {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0 5px;
+        }
+
+        /* Stili per l'Editor del File Manager */
+        #fmFileName {
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #d1a551;
+            padding: 5px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 10px;
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        #fmFileContent {
+            flex-grow: 1;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid #d1a551;
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            resize: none;
+            border-radius: 3px;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        .fm-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .fm-btn-save, .fm-btn-cancel {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+        .fm-btn-save { background: #4ade80; color: #14532d; flex-grow: 1; }
+        .fm-btn-cancel { background: #fca5a5; color: #7f1d1d; }
+
+                /* =========================================
+           MODAL IFRAME (App in sovrimpressione)
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Classe per attivare il modal */
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: #1e293b; /* Grigio scuro elegante per la cornice */
+            width: 90%;
+            max-width: 1100px;
+            height: 85vh; /* Occupa l'85% dell'altezza dello schermo */
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #f8fafc;
+            font-size: 1.2rem;
+            font-family: system-ui, sans-serif;
+        }
+
+        .modal-close {
+            background: #ef4444;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1);
+            background: #dc2626;
+        }
+
+        .modal-body {
+            flex-grow: 1;
+            background: #ffffff; /* Sfondo bianco per non alterare i colori delle tue app */
+            width: 100%;
+        }
+
+        .modal-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+                /* =========================================
+           9. IL SOTTOMANO (Calendario Full Width)
+           ========================================= */
+              /* =========================================
+           9. IL SOTTOMANO (Area Lavoro Fissa)
+           ========================================= */
+        .card-sottomano {
+            grid-column: 1 / -1; 
+            background-color: #1a1a1a; 
+            border-radius: 12px;
+            padding: 20px;
+            height: 850px; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 3px rgba(255,255,255,0.05); 
+            display: flex;
+            flex-direction: column;
+            transform: none !important; /* Forza l'orizzontalità perfetta */
+            transition: none !important; /* Blocca le animazioni di transizione */
+        }
+
+        /* Questa è la riga vitale che uccide l'animazione ballerina al passaggio del mouse! */
+        .card-sottomano:hover,
+        .card-sottomano.interactive-desk:hover {
+            transform: none !important; /* Non ruota */
+            scale: 1 !important; /* Non si ingrandisce */
+            translate: none !important; /* Non fa il saltello in alto */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 3px rgba(255,255,255,0.05) !important; /* Mantiene l'ombra piatta originale */
+            z-index: 1; /* Non gli fa scavalcare gli altri elementi */
+            cursor: default;
+        }
+
+        /* Assicuriamoci che l'iframe all'interno scorra fluido senza saltare */
+        .card-sottomano iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+        }
+
+        .card-sottomano .group-title {
+            font-family: 'Courier New', Courier, monospace;
+            color: #737373;
+            text-align: center;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
+        }
+
+       
+
+        @media (max-width: 768px) {
+            .card-sottomano {
+                grid-column: span 1; /* Su mobile torna a colonna singola */
+                height: 950px; /* Più alto su mobile perché gli elementi si impilano */
+                transform: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Sfondo animato a blob -->
-<div class="bg-blobs">
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-</div>
+    <!-- LA NUOVA DOCK SUPERIORE -->
+    <nav class="top-dock">
+        <a href="https://androidmain.netlify.app/" class="dock-item android" data-tooltip="Ambiente Android">🤖</a>
+        <a href="https://scuola-virtuale.netlify.app/" class="dock-item school" data-tooltip="Scuola Virtuale">🎓</a>
+        <a href="https://laboratorio-programmazione.vercel.app/" class="dock-item windows" data-tooltip="Ambiente Windows">🪟</a>
+         <a href="#desk" class="dock-item windows" data-tooltip="homepage">🗄</a>
+        <a href="#sottomano" class="dock-item windows" data-tooltip="sottomano">🖥</a>
+    </nav>
+    <header>
+        <h1>Il Mio Multiverso</h1>
+        <p>Tutti i miei progetti raccolti sulla mia scrivania digitale.</p>
+    </header>
+    <!-- 10. IL SOTTOMANO (Calendario Integrato) -->
+        <div id="sottomano" class="app-group card-sottomano interactive-desk">
+            <h2 class="group-title">Sottomano / Pianificazione</h2>
+            <!-- L'iframe richiama il tuo file Tailwind senza rompere il resto del CSS -->
+            <iframe src="mosaico.html" title="Area controllo"></iframe>
+        </div>
+    
 
-<header>
-  <div class="logo">AppStudio</div>
+    <main id="desk" class="desk-container">
 
-</header>
+        <!-- 1. LA LAVAGNA (Studio / Lingue) -->
+        <div class="app-group card-lavagna">
+            <h2 class="group-title">Lezioni & Lingue</h2>
+            <ul class="app-list">
+                <li><a href="https://scottino2019-glitch.github.io/lingua-cinese/">🐉 中文 </a></li>
+                <li><a href="https://linguacoreana.netlify.app/">🐅 한국어 </a></li>
+                <li><a href="https://quaderni-per-esercizi.vercel.app/">✏ Laboratorio Linguistico</a></li>
+                <li><a href="#">🌍 Vocabolario Russo</a></li>
+            </ul>
+        </div>
 
-<section class="hero">
-  <div class="hero-badge">Esplora i progetti</div>
-  <h1>Creatività & Codice<br /><span>Senza Limiti</span></h1>
-  <p>Le mie applicazioni web personalizzate. Seleziona una card per aprire il tool dedicato.</p>
-</section>
+        <!-- 2. L'EDITOR (Coding / Web Dev) -->
+        <div class="app-group card-editor">
+            <div class="editor-header">
+                <div class="mac-btn close"></div>
+                <div class="mac-btn min"></div>
+                <div  class="mac-btn max"></div>
+            </div>
+            <div class="editor-content">
+                <h2 class="group-title">&lt;DevTools /&gt;</h2>
+                <ul class="app-list">
+                    <li><a href="https://scottino2019-glitch.github.io/web-designer/">"Web Designer"</a></li>
+                    <li><a href="https://lezionijavascript.netlify.app/">"JS-Html-Page"</a></li>
+                    <li><a href="https://tailwind-code-lab.vercel.app/">"Tailwind Coding"</a></li>
+                    <li><a href="#">"React_Component_Hub"</a></li>
+                </ul>
+            </div>
+        </div>
 
-<div class="grid-section">
-  <div class="cards-grid">
+        <!-- 3. L'AGENDA (Ufficio / Utility) -->
+        <div class="app-group card-agenda">
+            <h2 class="group-title">Utility & Ufficio</h2>
+            <ul class="app-list">
+                <li><a href="https://ufficio-personale.netlify.app/">💼 Ufficio Personale</a></li>
+                <li><a href="https://editor-di-testo.vercel.app/">📝 Editor di Testo Pro</a></li>
+                <li><a href="#">📊 API Endpoint Tester</a></li>
+                <li><a href="#">🧮 Calcolatore Tasse</a></li>
+            </ul>
+        </div>
 
-    <!-- WhatsApp Chat Generator -->
-    <a href="https://whats-app-chat-designer.vercel.app/" class="card card-whatsapp" target="_blank">
-      <div class="card-content">
-        <div class="card-icon-wrapper">💬</div>
-        <div class="card-tag">Social Tool</div>
-        <h2>WA Generator</h2>
-        <p>Crea chat WhatsApp realistiche in pochi clic</p>
-        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
-      </div>
-    </a>
+        <!-- 4. IL LIBRO (Libreria / Lettura) -->
+        <div class="app-group card-libro">
+            <h2 class="group-title">Libreria</h2>
+            <ul class="app-list">
+                <li><a href="https://libreria-lilac.vercel.app/">📚 Libreria </a></li>
+                <li><a href="#">📚 Appunti di UI/UX</a></li>
+                <li><a href="#">📜 Storia della Cina</a></li>
+            </ul>
+        </div>
+                <!-- 5. LA CARTELLA INTERATTIVA (File Manager) -->
+        <div class="app-group card-cartella interactive-desk">
+            <h2 class="group-title">File Manager</h2>
+            
+            <!-- Vista 1: Lista dei file -->
+            <div id="fmList" class="fm-view">
+                <button class="fm-btn-new" onclick="fmNewFile()">+ Nuovo Documento</button>
+                <div id="virtualFilesContainer" class="fm-file-list">
+                    <!-- I file generati andranno qui -->
+                </div>
+            </div>
 
-    <!-- Comic Studio -->
-    <a href="https://comix-studio.vercel.app/" class="card card-comic" target="_blank">
-      <div class="card-content">
-        <div class="card-icon-wrapper">🎨</div>
-        <div class="card-tag">Editor Visuale</div>
-        <h2>Comic Studio</h2>
-        <p>Il tuo spazio  comporre vignette e storyboard direttamente nel browser.</p>
-        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
-      </div>
-    </a>
+            <!-- Vista 2: Editor di testo (nascosto di default) -->
+            <div id="fmEditor" class="fm-view" style="display: none;">
+                <input type="text" id="fmFileName" placeholder="nome_file.txt">
+                <textarea id="fmFileContent" placeholder="Inizia a scrivere il tuo codice o appunti qui..."></textarea>
+                <div class="fm-actions">
+                    <button class="fm-btn-save" onclick="fmSaveFile()">💾 Salva</button>
+                    <button class="fm-btn-cancel" onclick="fmCloseEditor()">✖ Annulla</button>
+                </div>
+            </div>
+        </div>
 
-    <!-- GrammarForge -->
-    <a href="https://scottino2019-glitch.github.io/GrammarForge/" class="card card-grammar" target="_blank">
-      <div class="card-content">
-        <div class="card-icon-wrapper">📖</div>
-        <div class="card-tag">Educazione</div>
-        <h2>GrammarForge</h2>
-        <p>Piattaforma interattiva per creare pdf e html di lezioni di grammatica</p>
-        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
-      </div>
-    </a>
+        <!-- 6. IL BLOCCO SCHIZZI (UI / Design) -->
+        <div class="app-group card-blocco">
+            <h2 class="group-title">Design & UX</h2>
+            <ul class="app-list">
+                <li><a href="le-app-studio.netlify.app">🎓 App-Studio</a></li>
+                <li><a href="https://whats-app-chat-designer.vercel.app/">🗯 ChatBuilder </a></li>
+                <li><a href="https://grammar-creator.vercel.app/">📔 Grammar Creator</a></li>
+            </ul>
+        </div>
 
-    <!-- TailwindCoding -->
-    <a href="https://tailwind-code-lab.vercel.app/" class="card card-tailwind" target="_blank">
-      <div class="card-content">
-        <div class="card-icon-wrapper">🧩</div>
-        <div class="card-tag">Dev Tools</div>
-        <h2>TailwindCoding</h2>
-        <p>Libreria di componenti e snippet pronti da incollare e crearne di nuovi per accelerare il tuo workflow CSS.</p>
-        <div class="card-arrow">Apri l'applicazione <span>→</span></div>
-      </div>
-    </a>
+        
 
-  </div>
-</div>
+        <!-- 7. IL CABINATO ARCADE (Giochi) -->
+        <div class="app-group card-arcade">
+            <h2 class="group-title">Arcade Zone</h2>
+            <ul class="app-list">
+                <li><a href="#">🕹️ Snake in React</a></li>
+                <li><a href="#">👾 Memory delle Lingue</a></li>
+                <li><a href="#">🚀 Type Invaders</a></li>
+            </ul>
+        </div>
 
-<footer>
-  &copy; 2026 AppStudio · Fatto con ❤️
-</footer>
+        <!-- 8. LA BACHECA (To-Do / Produttività) -->
+                <!-- 8. LA BACHECA INTERATTIVA (Post-it funzionanti) -->
+        <div class="app-group card-bacheca interactive-desk">
+            <h2 class="group-title">Appunti Volanti</h2>
+            
+            <!-- Form per aggiungere post-it -->
+            <div class="postit-form">
+                <input type="text" id="noteInput" placeholder="Scrivi un appunto..." autocomplete="off">
+                <button onclick="addNote()">📌</button>
+            </div>
 
+            <!-- Contenitore dei post-it -->
+            <div id="notesContainer" class="notes-container">
+                <!-- I post-it verranno generati qui dal JS -->
+            </div>
+        </div>
+
+                <!-- 9. LA BACHECA (To-Do / Produttività) -->
+        <div class="app-group card-bacheca">
+            <h2 class="group-title">Produttività</h2>
+            <ul class="app-list">
+                <li><a href="#" onclick="openModal(event, './task-tracker.html', '✅ Task Tracker')">✅ Task Tracker</a></li>
+                <li><a href="#" onclick="openModal(event, 'pomodoro.html', '⏱️ Pomodoro Timer')">⏱️ Pomodoro Timer</a></li>
+                <li><a href="#" onclick="openModal(event, './sticky-notes.html', '📌 Sticky Notes App')">📌 Sticky Notes App</a></li>
+            </ul>
+        </div>
+            <!-- IL MODAL PER LE APP (Inizialmente nascosto) -->
+    <div id="appModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nome App</h3>
+                <button class="modal-close" onclick="closeModal()">✖</button>
+            </div>
+            <div class="modal-body">
+                <!-- L'iframe dove verrà caricato l'HTML esterno -->
+                <iframe id="modalIframe" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+            
+
+    </main>
+<script>
+        // LOGICA SFONDO EMOJI SCRIVANIA
+        const deskEmojis = ['☕', '📎', '✏️', '📐', '✂️', '💡', '📌', '📚', '⌨️', '🖱️', '🎧', '🧮', '🖇️', '🗑️', '🖋️'];
+        const bgContainer = document.createElement('div');
+        bgContainer.className = 'bg-emojis';
+        // Inserisce il contenitore all'inizio del body
+        document.body.prepend(bgContainer);
+
+        // Genera 35 emoji sparse per lo schermo
+        for(let i = 0; i < 35; i++) {
+            const emoji = document.createElement('div');
+            emoji.className = 'bg-emoji';
+            // Sceglie un'emoji a caso dall'array
+            emoji.innerText = deskEmojis[Math.floor(Math.random() * deskEmojis.length)];
+            
+            // Posizione casuale
+            emoji.style.left = `${Math.random() * 100}vw`;
+            emoji.style.top = `${Math.random() * 100}vh`;
+            
+            // Grandezza casuale (tra 2 e 6 rem, per dare un senso di profondità)
+            emoji.style.fontSize = `${Math.random() * 4 + 2}rem`;
+            
+            // Rotazione casuale (passata come variabile CSS per non rompere l'animazione)
+            const rot = Math.random() * 360;
+            emoji.style.setProperty('--rot', `${rot}deg`);
+            emoji.style.transform = `rotate(${rot}deg)`;
+            
+            // Ritardo casuale per l'animazione, così non fluttuano tutte all'unisono
+            emoji.style.animationDelay = `-${Math.random() * 20}s`;
+
+            bgContainer.appendChild(emoji);
+        }
+    
+            // LOGICA FILE MANAGER INTERATTIVO
+        const fmList = document.getElementById('fmList');
+        const fmEditor = document.getElementById('fmEditor');
+        const virtualFilesContainer = document.getElementById('virtualFilesContainer');
+        const fmFileName = document.getElementById('fmFileName');
+        const fmFileContent = document.getElementById('fmFileContent');
+
+        // L'oggetto virtualFileSystem usa il nome del file come chiave e il contenuto come valore
+        let virtualFileSystem = JSON.parse(localStorage.getItem('myVirtualFiles')) || {};
+        let currentEditingFile = null;
+
+        function renderFiles() {
+            virtualFilesContainer.innerHTML = '';
+            const files = Object.keys(virtualFileSystem);
+            
+            if (files.length === 0) {
+                virtualFilesContainer.innerHTML = '<div style="opacity: 0.5; font-size: 0.8rem;">La cartella è vuota. Crea un nuovo file!</div>';
+                return;
+            }
+
+            files.forEach(fileName => {
+                const fileEl = document.createElement('div');
+                fileEl.className = 'fm-file-item';
+                
+                // Cliccando sul nome si apre il file
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'fm-file-name';
+                nameSpan.innerText = '📄 ' + fileName;
+                nameSpan.onclick = () => fmOpenFile(fileName);
+
+                // Bottone per eliminare
+                const delBtn = document.createElement('button');
+                delBtn.className = 'fm-delete-btn';
+                delBtn.innerText = '✖';
+                delBtn.onclick = (e) => {
+                    e.stopPropagation(); // Evita di aprire il file quando lo si cancella
+                    fmDeleteFile(fileName);
+                };
+
+                fileEl.appendChild(nameSpan);
+                fileEl.appendChild(delBtn);
+                virtualFilesContainer.appendChild(fileEl);
+            });
+        }
+
+        function fmNewFile() {
+            currentEditingFile = null;
+            fmFileName.value = '';
+            fmFileContent.value = '';
+            fmList.style.display = 'none';
+            fmEditor.style.display = 'flex';
+            fmFileName.focus();
+        }
+
+        function fmOpenFile(fileName) {
+            currentEditingFile = fileName;
+            fmFileName.value = fileName;
+            fmFileContent.value = virtualFileSystem[fileName];
+            fmList.style.display = 'none';
+            fmEditor.style.display = 'flex';
+        }
+
+        function fmSaveFile() {
+            let name = fmFileName.value.trim();
+            const content = fmFileContent.value;
+
+            if (name === '') {
+                name = 'Senza_Nome.txt';
+            }
+
+            // Se stiamo modificando un file esistente e cambiamo nome, rimuoviamo il vecchio
+            if (currentEditingFile && currentEditingFile !== name) {
+                delete virtualFileSystem[currentEditingFile];
+            }
+
+            virtualFileSystem[name] = content;
+            localStorage.setItem('myVirtualFiles', JSON.stringify(virtualFileSystem));
+            
+            fmCloseEditor();
+        }
+
+        function fmDeleteFile(fileName) {
+            if (confirm(`Sei sicuro di voler eliminare "${fileName}"?`)) {
+                delete virtualFileSystem[fileName];
+                localStorage.setItem('myVirtualFiles', JSON.stringify(virtualFileSystem));
+                renderFiles();
+            }
+        }
+
+        function fmCloseEditor() {
+            fmEditor.style.display = 'none';
+            fmList.style.display = 'flex';
+            renderFiles();
+        }
+
+        // Inizializza il File Manager
+        renderFiles();
+            // LOGICA BACHECA INTERATTIVA
+        const notesContainer = document.getElementById('notesContainer');
+        const noteInput = document.getElementById('noteInput');
+
+        // Carica le note salvate all'avvio
+        let myNotes = JSON.parse(localStorage.getItem('deskNotes')) || [];
+
+        function renderNotes() {
+            notesContainer.innerHTML = '';
+            myNotes.forEach((note, index) => {
+                const noteEl = document.createElement('div');
+                noteEl.className = 'post-it';
+                noteEl.innerHTML = `
+                    <span>${note}</span>
+                    <button class="delete-btn" onclick="deleteNote(${index})">X</button>
+                `;
+                notesContainer.appendChild(noteEl);
+            });
+        }
+
+        function addNote() {
+            const text = noteInput.value.trim();
+            if (text !== '') {
+                myNotes.push(text);
+                localStorage.setItem('deskNotes', JSON.stringify(myNotes));
+                noteInput.value = '';
+                renderNotes();
+            }
+        }
+
+        function deleteNote(index) {
+            myNotes.splice(index, 1);
+            localStorage.setItem('deskNotes', JSON.stringify(myNotes));
+            renderNotes();
+        }
+
+        // Permette di aggiungere con il tasto Invio
+        noteInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') addNote();
+        });
+
+        // Inizializza la bacheca
+        renderNotes();
+            // LOGICA APERTURA MODAL IFRAME
+        const modalOverlay = document.getElementById('appModal');
+        const modalIframe = document.getElementById('modalIframe');
+        const modalTitle = document.getElementById('modalTitle');
+
+        function openModal(event, url, title) {
+            event.preventDefault(); // Evita che la pagina salti verso l'alto
+            modalTitle.innerText = title;
+            modalIframe.src = url; // Inietta il file HTML della tua app nell'iframe
+            
+            modalOverlay.classList.add('active');
+            
+            // Blocca lo scroll della scrivania sotto al modal
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            
+            // Ripristina lo scroll della scrivania
+            document.body.style.overflow = 'auto';
+            
+            // Svuota l'iframe dopo che l'animazione di chiusura è terminata
+            setTimeout(() => {
+                modalIframe.src = ""; 
+            }, 300);
+        }
+
+        // Permette di chiudere il modal cliccando sullo sfondo sfocato esterno
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+</script>
 </body>
 </html>
