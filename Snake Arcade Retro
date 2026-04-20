@@ -1,0 +1,78 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://d2z0o16i8xm8ak.cloudfront.net/web/direct-files/c5d2a28447e3db4465abbdef53231f0c/9b48f217-beae-49c9-906b-fdd8d7c2c634/8992fc91.html?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnowbzE2aTh4bThhay5jbG91ZGZyb250Lm5ldC93ZWIvZGlyZWN0LWZpbGVzL2M1ZDJhMjg0NDdlM2RiNDQ2NWFiYmRlZjUzMjMxZjBjLzliNDhmMjE3LWJlYWUtNDljOS05MDZiLWZkZDhkN2MyYzYzNC84OTkyZmM5MS5odG1sPyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzczMjcyOTZ9fX1dfQ__&Signature=rGtrOUYQfAGeiqpnrq5LfjDg9fSf3r~WzjpLrtDCjOVxQ37D6EdPtLazmXtQYDc9vQhyKUK88zpQj-uIEaudbpH3l3ADJjwEIXNNe4ho~MU9ZCZOLqilmztxzdLFENh3TrFIOB7QS-l58APi2phhrIgS6bW05ULQo0YPMCGyJ-PPEqUCW01~fh52Ko5BYpa03f8jwPcWPGjSpgy0GejtzJTJphe25TReSG9pHeYIuE5v3DRUIMmallT2SLOiV56sNcWTX1gXINlUP13-k1m9tJ2yPw1JxkiEVFZxHvXsNd6vCxzB91-QynFi0ZHdL0p8j54mSD57MABnbiNxm-XCsQ__&Key-Pair-Id=K1BF7XGXAIMYNX&rnd=1776722580630&utm_source=perplexity
+Subject: Snake Arcade Retro
+Date: Tue, 21 Apr 2026 00:03:06 +0200
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--IT1QpMQQeQqwPnJGS50Y03QI9ocNZlOtMkrgLGASww----"
+
+
+------MultipartBoundary--IT1QpMQQeQqwPnJGS50Y03QI9ocNZlOtMkrgLGASww----
+Content-Type: text/html
+Content-ID: <frame-1048EB9CD5F27BB72FB004B5A2A6E928@mhtml.blink>
+Content-Transfer-Encoding: binary
+Content-Location: https://d2z0o16i8xm8ak.cloudfront.net/web/direct-files/c5d2a28447e3db4465abbdef53231f0c/9b48f217-beae-49c9-906b-fdd8d7c2c634/8992fc91.html?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9kMnowbzE2aTh4bThhay5jbG91ZGZyb250Lm5ldC93ZWIvZGlyZWN0LWZpbGVzL2M1ZDJhMjg0NDdlM2RiNDQ2NWFiYmRlZjUzMjMxZjBjLzliNDhmMjE3LWJlYWUtNDljOS05MDZiLWZkZDhkN2MyYzYzNC84OTkyZmM5MS5odG1sPyoiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3NzczMjcyOTZ9fX1dfQ__&Signature=rGtrOUYQfAGeiqpnrq5LfjDg9fSf3r~WzjpLrtDCjOVxQ37D6EdPtLazmXtQYDc9vQhyKUK88zpQj-uIEaudbpH3l3ADJjwEIXNNe4ho~MU9ZCZOLqilmztxzdLFENh3TrFIOB7QS-l58APi2phhrIgS6bW05ULQo0YPMCGyJ-PPEqUCW01~fh52Ko5BYpa03f8jwPcWPGjSpgy0GejtzJTJphe25TReSG9pHeYIuE5v3DRUIMmallT2SLOiV56sNcWTX1gXINlUP13-k1m9tJ2yPw1JxkiEVFZxHvXsNd6vCxzB91-QynFi0ZHdL0p8j54mSD57MABnbiNxm-XCsQ__&Key-Pair-Id=K1BF7XGXAIMYNX&rnd=1776722580630&utm_source=perplexity
+
+<!DOCTYPE html><html lang="it"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="cid:css-c58589e8-4d46-466e-a9db-70c06f97561d@mhtml.blink" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Snake Arcade Retro</title>
+    
+    
+</head>
+<body>
+
+    <div class="ui-panel">
+        <div>SCORE: <span id="score">0</span></div>
+        <div>BEST: <span id="high-score">0</span></div>
+    </div>
+
+    <div id="game-container">
+        <canvas id="snakeCanvas" width="340" height="580"></canvas>
+        
+        <div id="overlay">
+            <h1 id="overlay-title">SNAKE RETRO</h1>
+            <p id="overlay-msg">TRASCINA (SWIPE) PER MUOVERTI</p>
+            <button id="start-btn" class="btn-start">GIOCA</button>
+            <div class="controls-hint">
+                SCORRI IN ALTO, BASSO, DESTRA O SINISTRA
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+</body></html>
+------MultipartBoundary--IT1QpMQQeQqwPnJGS50Y03QI9ocNZlOtMkrgLGASww----
+Content-Type: text/css
+Content-Transfer-Encoding: binary
+Content-Location: cid:css-c58589e8-4d46-466e-a9db-70c06f97561d@mhtml.blink
+
+@charset "utf-8";
+
+body { background-color: rgb(15, 23, 42); color: rgb(255, 255, 255); font-family: "Courier New", Courier, monospace; font-weight: bold; margin: 0px; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+
+#game-container { position: relative; border: 4px solid rgb(51, 65, 85); background-color: rgb(2, 6, 23); box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 20px; touch-action: none; max-width: 100%; }
+
+#game-container { position: relative; border: 4px solid rgb(51, 65, 85); background-color: rgb(2, 6, 23); box-shadow: rgba(0, 0, 0, 0.5) 0px 0px 20px; }
+
+canvas { display: block; }
+
+.ui-panel { width: 100%; max-width: 400px; display: flex; justify-content: space-between; padding: 10px; font-size: 10px; }
+
+#overlay { position: absolute; inset: 0px; background: rgba(2, 6, 23, 0.9); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10; }
+
+.btn-start { margin-top: 20px; padding: 15px 30px; background: rgb(34, 197, 94); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; color: white; font-family: "Courier New", Courier, monospace; font-weight: bold; cursor: pointer; font-size: 12px; border-radius: 4px; }
+
+.controls-hint { margin-top: 20px; font-size: 8px; color: rgb(100, 116, 139); text-align: center; line-height: 1.5; }
+
+#overlay-title { font-size: 24px; color: rgb(34, 197, 94); margin-bottom: 16px; text-align: center; }
+
+#overlay-title.game-over { color: rgb(239, 68, 68) !important; }
+
+#overlay-msg { font-size: 10px; color: rgb(148, 163, 184); text-align: center; padding: 0px 16px; margin-bottom: 20px; }
+------MultipartBoundary--IT1QpMQQeQqwPnJGS50Y03QI9ocNZlOtMkrgLGASww------
