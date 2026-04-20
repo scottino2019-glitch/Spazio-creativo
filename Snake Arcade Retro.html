@@ -9,13 +9,25 @@
         body {
             background-color: #0f172a;
             color: #fff;
-            font-family: 'Courier New', Courier, monospace; font-weight: bold;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
             margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            overflow: hidden; /* Evita salti di pagina su mobile */
+        }
+
+        .ui-panel {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-sizing: border-box;
+            font-size: 12px;
         }
 
         #game-container {
@@ -24,18 +36,10 @@
             background-color: #020617;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             touch-action: none;
-            max-width: 100%;
         }
 
-        canvas { display: block; }
-
-        .ui-panel {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            font-size: 10px;
+        canvas {
+            display: block;
         }
 
         #overlay {
@@ -49,26 +53,6 @@
             z-index: 10;
         }
 
-        .btn-start {
-            margin-top: 20px;
-            padding: 15px 30px;
-            background: #22c55e;
-            border: none;
-            color: white;
-            font-family: 'Courier New', Courier, monospace; font-weight: bold;
-            cursor: pointer;
-            font-size: 12px;
-            border-radius: 4px;
-        }
-
-        .controls-hint {
-            margin-top: 20px;
-            font-size: 8px;
-            color: #64748b;
-            text-align: center;
-            line-height: 1.5;
-        }
-    
         #overlay-title {
             font-size: 24px;
             color: #22c55e;
@@ -83,7 +67,28 @@
             padding: 0 16px;
             margin-bottom: 20px;
         }
-</style>
+
+        .btn-start {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: #22c55e;
+            border: none;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .controls-hint {
+            margin-top: 20px;
+            font-size: 10px;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.5;
+        }
+    </style>
 </head>
 <body>
     <div class="ui-panel">
@@ -123,12 +128,22 @@
 
         function setupCanvas() {
             const padding = 20;
-            const uiHeight = 80;
-            let availableWidth = Math.min(window.innerWidth - padding, 600);
-            let availableHeight = Math.min(window.innerHeight - uiHeight, 600);
+            const uiHeight = 60;
+            
+            let maxW = window.innerWidth - padding;
+            let maxH = window.innerHeight - uiHeight - padding;
+            
+            // LA CORREZIONE: Forza il canvas ad essere un QUADRATO PERFETTO
+            let size = Math.min(maxW, maxH);
+            
+            if (size > 600) size = 600; // Limite massimo per PC
+            
             gridSize = 20; 
-            canvas.width = Math.floor(availableWidth / gridSize) * gridSize;
-            canvas.height = Math.floor(availableHeight / gridSize) * gridSize;
+            size = Math.floor(size / gridSize) * gridSize;
+            
+            canvas.width = size;
+            canvas.height = size;
+            
             tileCountX = canvas.width / gridSize;
             tileCountY = canvas.height / gridSize;
             highScoreEl.innerText = highScore;
