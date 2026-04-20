@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Cose da Fare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .task-item {
+            transition: all 0.3s ease;
+        }
+        .task-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-3 py-4 max-w-2xl">
+        <!-- Header -->
+        <div class="gradient-bg rounded-xl p-4 sm:p-6 mb-6 text-white text-center shadow-xl">
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">✨ Le Mie Cose da Fare</h1>
+            <p class="text-sm sm:text-base lg:text-lg opacity-90">Completa la lista</p>
+        </div>
+
+        <!-- Add Task Form -->
+        <div class="bg-white rounded-xl shadow-lg p-3 sm:p-4 mb-6">
+            <div class="flex gap-2 sm:gap-3">
+                <input 
+                    type="text" 
+                    id="taskInput" 
+                    placeholder="Aggiungi una nuova attività..." 
+                    class="flex-1 px-3 py-2 sm:px-4 sm:py-3 border-2 border-gray-200 rounded-lg focus:border-purple-500 focus:outline-none transition-colors text-gray-700 text-sm sm:text-base"
+                    onkeypress="handleKeyPress(event)"
+                >
+                <button 
+                    onclick="addTask()" 
+                    class="bg-gradient-to-r from-purple-500 to-blue-500 text-white px-3 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold hover:from-purple-600 hover:to-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base"
+                >
+                    Aggiungi
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-6">
+            <div class="bg-white rounded-lg sm:rounded-xl p-2 sm:p-4 text-center shadow-md">
+                <div class="text-lg sm:text-2xl font-bold text-purple-600" id="totalTasks">0</div>
+                <div class="text-xs sm:text-sm text-gray-600">Totali</div>
+            </div>
+            <div class="bg-white rounded-lg sm:rounded-xl p-2 sm:p-4 text-center shadow-md">
+                <div class="text-lg sm:text-2xl font-bold text-green-600" id="completedTasks">0</div>
+                <div class="text-xs sm:text-sm text-gray-600">Completate</div>
+            </div>
+            <div class="bg-white rounded-lg sm:rounded-xl p-2 sm:p-4 text-center shadow-md">
+                <div class="text-lg sm:text-2xl font-bold text-orange-600" id="pendingTasks">0</div>
+                <div class="text-xs sm:text-sm text-gray-600">Da fare</div>
+            </div>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="space-y-3" id="tasksList">
+            <!-- Tasks will be added here dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-12 hidden">
+            <div class="text-6xl mb-4">🎯</div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">Nessuna attività ancora</h3>
+            <p class="text-gray-500">Aggiungi la tua prima attività per iniziare!</p>
+        </div>
+    </div>
+
+    <script>
+        let tasks = [];
+        let taskIdCounter = 1;
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+            
+            if (taskText === '') {
+                input.focus();
+                return;
+            }
+
+            const task = {
+                id: taskIdCounter++,
+                text: taskText,
+                completed: false,
+                createdAt: new Date()
+            };
+
+            tasks.push(task);
+            input.value = '';
+            renderTasks();
+            updateStats();
+        }
+
+        function toggleTask(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+                updateStats();
+            }
+        }
+
+        function deleteTask(taskId) {
+            tasks = tasks.filter(t => t.id !== taskId);
+            renderTasks();
+            updateStats();
+        }
+
+        function renderTasks() {
+            const tasksList = document.getElementById('tasksList');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (tasks.length === 0) {
+                tasksList.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            
+            tasksList.innerHTML = tasks.map(task => `
+                <div class="task-item bg-white rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-md fade-in ${task.completed ? 'completed' : ''}">
+                    <div class="flex items-center gap-3 sm:gap-4">
+                        <button 
+                            onclick="toggleTask(${task.id})" 
+                            class="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 flex-shrink-0 ${
+                                task.completed 
+                                    ? 'bg-green-500 border-green-500 text-white' 
+                                    : 'border-gray-300 hover:border-green-400'
+                            }"
+                        >
+                            ${task.completed ? '✓' : ''}
+                        </button>
+                        <span class="flex-1 text-gray-700 text-sm sm:text-base break-words ${task.completed ? 'line-through' : ''}">${task.text}</span>
+                        <button 
+                            onclick="deleteTask(${task.id})" 
+                            class="text-red-400 hover:text-red-600 transition-colors p-1 flex-shrink-0"
+                        >
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateStats() {
+            const total = tasks.length;
+            const completed = tasks.filter(t => t.completed).length;
+            const pending = total - completed;
+
+            document.getElementById('totalTasks').textContent = total;
+            document.getElementById('completedTasks').textContent = completed;
+            document.getElementById('pendingTasks').textContent = pending;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                addTask();
+            }
+        }
+
+        // Initialize
+        renderTasks();
+        updateStats();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97de0be7c6d6c69a',t:'MTc1NzY2NTg2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
