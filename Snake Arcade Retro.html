@@ -15,19 +15,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Allinea in alto per sfruttare tutto lo spazio */
             min-height: 100vh;
-            overflow: hidden; /* Evita salti di pagina su mobile */
+            overflow: hidden; 
         }
 
         .ui-panel {
             width: 100%;
-            max-width: 600px;
             display: flex;
             justify-content: space-between;
-            padding: 10px 20px;
+            padding: 15px 20px;
             box-sizing: border-box;
-            font-size: 12px;
+            font-size: 14px;
+            height: 60px; /* Altezza fissa per il calcolo matematico */
+            max-width: 800px;
         }
 
         #game-container {
@@ -60,12 +61,14 @@
             text-align: center;
         }
         #overlay-title.game-over { color: #ef4444 !important; }
+        
         #overlay-msg {
-            font-size: 10px;
+            font-size: 12px;
             color: #94a3b8;
             text-align: center;
             padding: 0 16px;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .btn-start {
@@ -80,14 +83,6 @@
             font-size: 14px;
             border-radius: 4px;
         }
-
-        .controls-hint {
-            margin-top: 20px;
-            font-size: 10px;
-            color: #64748b;
-            text-align: center;
-            line-height: 1.5;
-        }
     </style>
 </head>
 <body>
@@ -100,9 +95,8 @@
         <canvas id="snakeCanvas"></canvas>
         <div id="overlay">
             <h1 id="overlay-title">SNAKE RETRO</h1>
-            <p id="overlay-msg">TRASCINA (SWIPE) PER MUOVERTI</p>
+            <p id="overlay-msg">TRASCINA IL DITO (SWIPE)<br>PER MUOVERTI</p>
             <button id="start-btn" class="btn-start">GIOCA</button>
-            <div class="controls-hint">SCORRI IN ALTO, BASSO, DESTRA O SINISTRA</div>
         </div>
     </div>
 
@@ -127,25 +121,28 @@
         let speed = 150;
 
         function setupCanvas() {
-            const padding = 20;
-            const uiHeight = 60;
+            const padding = 16; // Margine laterale ridotto
+            const uiHeight = 60; // Altezza esatta del pannello superiore
             
-            let maxW = window.innerWidth - padding;
-            let maxH = window.innerHeight - uiHeight - padding;
+            // Calcolo dello spazio TOTALE a disposizione
+            let w = window.innerWidth - padding;
+            let h = window.innerHeight - uiHeight - padding;
             
-            // LA CORREZIONE: Forza il canvas ad essere un QUADRATO PERFETTO
-            let size = Math.min(maxW, maxH);
-            
-            if (size > 600) size = 600; // Limite massimo per PC
+            // Regola intelligente: se siamo su un monitor di un PC largo, non spariamo il gioco per tutta la stanza
+            if (window.innerWidth > 800) {
+                w = Math.min(w, 600);
+                h = Math.min(h, 600);
+            }
             
             gridSize = 20; 
-            size = Math.floor(size / gridSize) * gridSize;
             
-            canvas.width = size;
-            canvas.height = size;
+            // Arrotondamento perfetto: taglia i pixel in eccesso che non formano un quadrato da 20px
+            canvas.width = Math.floor(w / gridSize) * gridSize;
+            canvas.height = Math.floor(h / gridSize) * gridSize;
             
             tileCountX = canvas.width / gridSize;
             tileCountY = canvas.height / gridSize;
+            
             highScoreEl.innerText = highScore;
         }
 
@@ -179,7 +176,10 @@
             dx = nextDx; dy = nextDy;
             const head = { x: snake[0].x + dx, y: snake[0].y + dy };
 
+            // Controllo collisione muri: calcolato sui tile esatti
             if (head.x < 0 || head.x >= tileCountX || head.y < 0 || head.y >= tileCountY) return gameOver();
+            
+            // Controllo collisione corpo
             for (let i = 0; i < snake.length; i++) {
                 if (snake[i].x === head.x && snake[i].y === head.y) return gameOver();
             }
@@ -206,6 +206,7 @@
 
             ctx.fillStyle = '#020617';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
             ctx.fillStyle = '#ef4444';
             ctx.shadowBlur = 10;
             ctx.shadowColor = '#ef4444';
@@ -222,20 +223,20 @@
             clearInterval(gameLoop);
             overlayTitle.innerText = "GAME OVER";
             overlayTitle.classList.add("game-over");
-            overlayMsg.innerText = `PUNTEGGIO: ${score}`;
+            overlayMsg.innerHTML = `PUNTEGGIO: ${score}`;
             startBtn.innerText = "RIPROVA";
             overlay.style.display = 'flex';
         }
 
         window.addEventListener('keydown', e => {
-            if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w', 'a', 's', 'd', 'W', 'A', 'S', 'D'].includes(e.key)) {
+            if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w', 'a', 's', 'd'].includes(e.key)) {
                 if(overlay.style.display === 'none') e.preventDefault();
             }
-            switch (e.key) {
-                case 'ArrowUp': case 'w': case 'W': if (dy !== 1) { nextDx = 0; nextDy = -1; } break;
-                case 'ArrowDown': case 's': case 'S': if (dy !== -1) { nextDx = 0; nextDy = 1; } break;
-                case 'ArrowLeft': case 'a': case 'A': if (dx !== 1) { nextDx = -1; nextDy = 0; } break;
-                case 'ArrowRight': case 'd': case 'D': if (dx !== -1) { nextDx = 1; nextDy = 0; } break;
+            switch (e.key.toLowerCase()) {
+                case 'arrowup': case 'w': if (dy !== 1) { nextDx = 0; nextDy = -1; } break;
+                case 'arrowdown': case 's': if (dy !== -1) { nextDx = 0; nextDy = 1; } break;
+                case 'arrowleft': case 'a': if (dx !== 1) { nextDx = -1; nextDy = 0; } break;
+                case 'arrowright': case 'd': if (dx !== -1) { nextDx = 1; nextDy = 0; } break;
             }
         }, { passive: false });
 
