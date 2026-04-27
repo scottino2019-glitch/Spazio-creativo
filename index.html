@@ -856,6 +856,103 @@
                 transform: none;
             }
         }
+         /* =========================================
+           11. LA TAVOLOZZA (App di Grafica / Colori)
+           ========================================= */
+        .card-tavolozza {
+            background-color: #e6d5b8; /* Colore legno chiaro/betulla */
+            /* Forma organica asimmetrica tipica di una tavolozza */
+            border-radius: 40% 20% 40% 30% / 30% 40% 40% 30%; 
+            transform: rotate(4deg) translateY(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset -10px -10px 20px rgba(0,0,0,0.05);
+            border: 2px solid #d4c3a3;
+            position: relative;
+            overflow: visible; /* Necessario per non tagliare l'effetto del buco */
+        }
+        
+        /* Il foro per il pollice in basso a destra */
+        .card-tavolozza::after {
+            content: '';
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            width: 45px;
+            height: 45px;
+            background-color: #121826; /* Stesso colore dello sfondo della scrivania per simulare il buco */
+            border-radius: 50%;
+            box-shadow: inset 3px 3px 8px rgba(0,0,0,0.6), 0 0 0 2px #d4c3a3;
+            pointer-events: none;
+        }
+
+        .card-tavolozza .group-title {
+            font-family: 'Brush Script MT', 'Caveat', 'Pacifico', cursive, sans-serif;
+            color: #5c4033; /* Marrone scuro */
+            font-size: 2.2rem;
+            transform: rotate(-3deg);
+            margin-bottom: 20px;
+            margin-left: 10px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+
+                  /* =========================================
+           I LINK DELLA TAVOLOZZA (Incisi nel legno)
+           ========================================= */
+        .card-tavolozza .app-list {
+            gap: 15px; 
+            padding-right: 45px; /* Spazio per non finire nel buco del pollice */
+            list-style: none; 
+            margin-left: 10px;
+        }
+
+        .card-tavolozza a {
+            display: flex; /* Allinea perfettamente testo e goccia di colore */
+            align-items: center;
+            background: transparent; /* Niente sfondo bianco! Si vede il legno */
+            color: #4a3b22; /* Marrone scurissimo, come inchiostro scuro o legno bruciato */
+            font-weight: 800; /* Molto spesso per essere leggibile */
+            font-size: 1.15rem; 
+            font-family: system-ui, -apple-system, sans-serif;
+            position: relative;
+            padding: 8px 0 8px 40px; /* Spazio a sinistra solo per la goccia */
+            text-decoration: none;
+            /* Effetto "inciso nel legno": ombra bianca sotto il testo scuro */
+            text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.6);
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: none;
+            box-shadow: none;
+        }
+
+        /* Le macchie di colore (vernice) a sinistra del testo */
+        .card-tavolozza a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 24px; /* Gocce di vernice belle grandi */
+            height: 24px;
+            /* Forma leggermente irregolare per sembrare vernice fresca */
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            /* Ombra scura sotto la vernice e riflesso di luce sopra (effetto 3D lucido) */
+            box-shadow: inset -3px -3px 6px rgba(0,0,0,0.3), inset 2px 2px 4px rgba(255,255,255,0.5), 2px 3px 5px rgba(0,0,0,0.2); 
+            transition: all 0.3s;
+        }
+
+        /* I colori sgargianti delle tempere */
+        .card-tavolozza li:nth-child(1) a::before { background-color: #ef4444; } /* Rosso vivo */
+        .card-tavolozza li:nth-child(2) a::before { background-color: #3b82f6; } /* Blu elettrico */
+        .card-tavolozza li:nth-child(3) a::before { background-color: #facc15; } /* Giallo sole */
+        .card-tavolozza li:nth-child(4) a::before { background-color: #10b981; } /* Verde smeraldo */
+        .card-tavolozza li:nth-child(5) a::before { background-color: #a855f7; } /* Viola acceso */
+
+        /* Interazione: il testo si scurisce e la goccia "si muove" */
+        .card-tavolozza a:hover {
+            color: #291f10; /* Diventa ancora più scuro e marcato */
+            transform: translateX(10px);
+        }
+        
+        .card-tavolozza a:hover::before {
+            /* La goccia ruota e si espande leggermente */
+            transform: translateY(-50%) scale(1.2) rotate(45deg);
+        }
     </style>
 </head>
 <body>
@@ -1019,6 +1116,16 @@
                 <li><a href="#" onclick="openModal(event, './sticky-notes.html', '📌 Sticky Notes App')">📌 Sticky Notes App</a></li>
             
           </ul>
+        </div>
+          <!-- 11. LA TAVOLOZZA (App di Grafica, Design e Colori) -->
+        <div class="app-group card-tavolozza">
+            <h2 class="group-title">🎨 Foto Design</h2>
+            <ul class="app-list">
+                <li><a href="https://vector-sketch.netlify.app/">Vector Sketch</a></li>
+                <li><a href="https://arty-scrapbook.vercel.app/">Arty Scrapbook</a></li>
+                <li><a href="https://scrapbook-magic.vercel.app/">Scrapbook magic</a></li>
+                <li><a href=https://stickers-creator.vercel.app/">stickers Creator</a></li>
+            </ul>
         </div>
             <!-- IL MODAL PER LE APP (Inizialmente nascosto) -->
     <div id="appModal" class="modal-overlay">
