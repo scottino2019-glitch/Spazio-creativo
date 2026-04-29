@@ -6,13 +6,12 @@
   <title>Studio Voce - App TTS</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<!-- Sfondo super colorato con gradiente animato -->
 <body class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center p-6 antialiased selection:bg-purple-300 selection:text-purple-900">
 
   <!-- Contenitore Glassmorphism -->
   <div class="max-w-lg w-full bg-white/90 backdrop-blur-xl shadow-[0_20px_50px_rgba(8,_112,_184,_0.3)] rounded-[2.5rem] p-8 border border-white/50 relative overflow-hidden transition-all">
 
-    <!-- Decorazioni sfocate sullo sfondo della card per un effetto "magico" -->
+    <!-- Decorazioni sfocate sullo sfondo della card -->
     <div class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full mix-blend-multiply filter blur-2xl opacity-40"></div>
     <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full mix-blend-multiply filter blur-2xl opacity-40"></div>
 
@@ -69,7 +68,7 @@
   </div>
 
   <script>
-    // --- STESSA LOGICA FUNZIONANTE DI PRIMA ---
+    // Crea l'URL usando googleapis.com per evitare blocchi su Vercel
     function buildGoogleUrl() {
       const text = document.getElementById('textInput').value.trim();
       const lang = document.getElementById('languageSelector').value;
@@ -77,57 +76,42 @@
         alert("Inserisci del testo per generare l'audio!");
         return null;
       }
-      return `https://translate.google.com/translate_tts?ie=UTF-8&tl=${lang}&client=tw-ob&q=${encodeURIComponent(text)}`;
+      return `https://translate.googleapis.com/translate_tts?ie=UTF-8&client=gtx&tl=${lang}&q=${encodeURIComponent(text)}`;
     }
 
+    // --- RIPRODUZIONE AUDIO ---
     document.getElementById('playBtn').addEventListener('click', () => {
       const url = buildGoogleUrl();
       if (!url) return;
       
-      // Animazione temporanea sul pulsante
       const btn = document.getElementById('playBtn');
       btn.classList.add('animate-pulse');
       setTimeout(() => btn.classList.remove('animate-pulse'), 1000);
 
+      // Riproduzione immediata
       const audio = new Audio(url);
-      audio.play().catch(e => alert("Errore di riproduzione: " + e));
+      audio.play().catch(e => alert("Errore di riproduzione: " + e.message));
     });
 
-    document.getElementById('downloadBtn').addEventListener('click', async () => {
-      const googleUrl = buildGoogleUrl();
-      if (!googleUrl) return;
+    // --- DOWNLOAD SICURO ---
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const url = buildGoogleUrl();
+      if (!url) return;
 
-      const btn = document.getElementById('downloadBtn');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = '⏳ Elaborazione...';
+      const lang = document.getElementById('languageSelector').value;
+      
+      // Crea un link temporaneo e forza l'apertura
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = "_blank"; // Apre in una nuova scheda senza rompere l'app
+      link.download = `Audio_${lang}_${Date.now()}.mp3`;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleUrl)}`;
-
-      try {
-        const response = await fetch(proxyUrl);
-        if (!response.ok) throw new Error("Proxy failed");
-        
-        const blob = await response.blob();
-        const blobUrl = window.URL.createObjectURL(blob);
-        
-        const a = document.createElement('a');
-        a.style.display = 'none';
-        a.href = blobUrl;
-        
-        const lang = document.getElementById('languageSelector').value;
-        a.download = `vocabolo_${lang}_${Date.now()}.mp3`;
-        
-        document.body.appendChild(a);
-        a.click();
-        
-        window.URL.revokeObjectURL(blobUrl);
-        document.body.removeChild(a);
-      } catch (error) {
-        // Fallback di sicurezza in caso il proxy venga bloccato
-        window.open(googleUrl, '_blank');
-      } finally {
-        btn.innerHTML = originalText;
-      }
+      // Mostra un piccolo avviso per guidare l'utente
+      alert("Se il file non si scarica automaticamente, si aprirà un player audio in una nuova scheda. Clicca sui 3 puntini e seleziona 'Scarica'!");
     });
   </script>
 </body>
