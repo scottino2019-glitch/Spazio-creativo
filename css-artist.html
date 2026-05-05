@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Art Studio - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap');
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050508;
+            color: #cbd5e1;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Effetto manga/fumetto di sfondo (Halftone pattern) */
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.05) 2px, transparent 2px);
+            background-size: 24px 24px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* ========================================= */
+        /* STILE DELLE CARD (Glassmorphism & Glow)   */
+        /* ========================================= */
+        .art-card {
+            background: rgba(20, 22, 35, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .art-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .card-glow {
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 180px;
+            border-radius: 24px 24px 0 0;
+            opacity: 0.3;
+            transition: opacity 0.5s;
+            z-index: 0;
+        }
+        .art-card:hover .card-glow { opacity: 0.8; }
+
+        /* ========================================= */
+        /* CSS ART: MINION (Atomic Architect)        */
+        /* ========================================= */
+        .css-art-container {
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .mini-character {
+            position: relative;
+            width: 80px; height: 70px;
+            background: #6366f1;
+            border-radius: 40px;
+            animation: float-char 4s ease-in-out infinite;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.3);
+        }
+
+        .mini-ear {
+            position: absolute;
+            width: 25px; height: 25px;
+            background: #4f46e5;
+            top: 25px;
+            z-index: -1;
+        }
+        .mini-ear.left { left: -12px; border-radius: 50% 10% 10% 50%; }
+        .mini-ear.right { right: -12px; border-radius: 10% 50% 50% 10%; }
+
+        .mini-eye {
+            position: absolute;
+            width: 22px; height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            top: 20px;
+            animation: blink 4s infinite;
+        }
+        .mini-eye.left { left: 14px; }
+        .mini-eye.right { right: 14px; }
+
+        .mini-pupil {
+            position: absolute;
+            width: 10px; height: 10px;
+            background: #0f172a;
+            border-radius: 50%;
+            top: 6px; left: 6px;
+            transition: transform 0.3s;
+        }
+        .art-card:hover .mini-pupil { transform: translate(3px, -3px); }
+
+        .mini-mouth {
+            position: absolute;
+            width: 16px; height: 10px;
+            border-bottom: 3px solid #1e1b4b;
+            border-radius: 50%;
+            bottom: 15px; left: 32px;
+            transition: all 0.3s;
+        }
+        .art-card:hover .mini-mouth { 
+            height: 14px; width: 14px; border-bottom: 0; background: #1e1b4b; left: 33px; 
+        }
+
+        /* ========================================= */
+        /* CSS ART: TAVOLOZZA (CSS Artist Lab)       */
+        /* ========================================= */
+        .palette {
+            position: relative;
+            width: 100px; height: 75px;
+            background: #e9d5ff;
+            border-radius: 50% 60% 40% 50%;
+            animation: float-char 5s ease-in-out infinite reverse;
+            box-shadow: inset -8px -8px 15px rgba(0,0,0,0.1);
+        }
+        .palette-hole {
+            position: absolute;
+            width: 20px; height: 20px;
+            background: #050508;
+            border-radius: 50%;
+            bottom: 15px; right: 15px;
+        }
+        .color-blob {
+            position: absolute;
+            border-radius: 50%;
+            box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2);
+        }
+        .c-1 { width: 18px; height: 18px; background: #ef4444; top: 15px; left: 15px; }
+        .c-2 { width: 22px; height: 22px; background: #fbbf24; top: 10px; left: 40px; }
+        .c-3 { width: 16px; height: 16px; background: #3b82f6; top: 35px; left: 20px; }
+
+        .brush {
+            position: absolute;
+            width: 8px; height: 70px;
+            background: #d97706;
+            top: -20px; right: 30px;
+            transform: rotate(35deg);
+            border-radius: 4px;
+            z-index: -1;
+            transition: transform 0.4s;
+        }
+        .brush::before {
+            content: ''; position: absolute;
+            width: 16px; height: 25px;
+            background: #f43f5e;
+            top: -20px; left: -4px;
+            border-radius: 50% 50% 10% 10%;
+        }
+        .brush::after {
+            content: ''; position: absolute;
+            width: 10px; height: 8px;
+            background: #9ca3af;
+            top: 0px; left: -1px;
+        }
+        .art-card:hover .brush { transform: rotate(50deg) translateY(-10px); }
+
+        /* ========================================= */
+        /* ANIMAZIONI                                */
+        /* ========================================= */
+        @keyframes float-char { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes blink { 0%, 96%, 100% { transform: scaleY(1); } 98% { transform: scaleY(0.1); } }
+
+    </style>
+</head>
+<body class="relative">
+
+    <div class="bg-pattern"></div>
+
+    <div class="relative z-10 w-full max-w-5xl mx-auto px-6 py-12 flex flex-col items-center">
+        
+        <!-- Header Creativo -->
+        <header class="text-center mb-16">
+            <h1 class="text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-indigo-200 to-violet-500 tracking-tighter mb-4" style="filter: drop-shadow(0 0 20px rgba(139,92,246,0.3));">
+                CSS ART STUDIO
+            </h1>
+            <p class="text-indigo-200/60 font-medium tracking-[0.3em] uppercase text-sm">
+                Laboratorio di Ingegneria Visiva
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
+            
+            <!-- APP 1: Atomic Architect -->
+            <a href="character-engine.html" class="art-card rounded-3xl block overflow-hidden cursor-pointer group">
+                <div class="card-glow bg-gradient-to-b from-indigo-600/40 to-transparent"></div>
+                
+                <!-- OPERA IN CSS -->
+                <div class="css-art-container border-b border-white/5">
+                    <div class="mini-character">
+                        <div class="mini-ear left"></div>
+                        <div class="mini-ear right"></div>
+                        <div class="mini-eye left"><div class="mini-pupil"></div></div>
+                        <div class="mini-eye right"><div class="mini-pupil"></div></div>
+                        <div class="mini-mouth"></div>
+                    </div>
+                </div>
+                
+                <div class="p-8">
+                    <div class="flex items-baseline justify-between mb-4">
+                        <h2 class="text-2xl font-black text-white">Atomic Architect</h2>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-indigo-500/20 text-indigo-400">ENGINE v5.1</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
+                        Il motore base. Genera le coordinate pixel-perfect per la struttura anatomica. Controlla occhi, testa, orecchie ed esporta l'architettura.
+                    </p>
+                    <div class="text-indigo-400 font-bold text-sm flex items-center gap-2 group-hover:text-indigo-300">
+                        AVVIA IL GENERATORE 
+                        <span class="group-hover:translate-x-2 transition-transform">→</span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- APP 2: CSS Artist Lab -->
+            <a href="https://css-art-studio.vercel.app/" class="art-card rounded-3xl block overflow-hidden cursor-pointer group">
+                <div class="card-glow bg-gradient-to-b from-violet-600/40 to-transparent"></div>
+
+                <!-- OPERA IN CSS -->
+                <div class="css-art-container border-b border-white/5">
+                    <div class="palette">
+                        <div class="palette-hole"></div>
+                        <div class="color-blob c-1"></div>
+                        <div class="color-blob c-2"></div>
+                        <div class="color-blob c-3"></div>
+                        <div class="brush"></div>
+                    </div>
+                </div>
+                
+                <div class="p-8">
+                    <div class="flex items-baseline justify-between mb-4">
+                        <h2 class="text-2xl font-black text-white">CSS Artist Lab</h2>
+                        <span class="text-[10px] font-bold px-2 py-1 rounded bg-violet-500/20 text-violet-400">ADVANCED</span>
+                    </div>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-6 font-medium">
+                        Il laboratorio artistico dove realizzare la  tua creatura in puro CSS.
+                    </p>
+                    <div class="text-violet-400 font-bold text-sm flex items-center gap-2 group-hover:text-violet-300">
+                        ENTRA NEL LABORATORIO 
+                        <span class="group-hover:translate-x-2 transition-transform">→</span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>
