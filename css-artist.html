@@ -180,6 +180,117 @@
         @keyframes float-char { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
         @keyframes blink { 0%, 96%, 100% { transform: scaleY(1); } 98% { transform: scaleY(0.1); } }
 
+    /* --- LA CARD ATELIER --- */
+    .card-atelier {
+      position: relative;
+      width: 260px;
+      background: linear-gradient(145deg, #2e0249, #5b21b6);
+      border-radius: 24px;
+      padding: 24px;
+      color: #ffffff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      overflow: hidden; /* Mantiene la macchia di luce dentro i bordi */
+    }
+
+    /* Animazione interattiva al passaggio del mouse */
+    .card-atelier:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(236, 72, 153, 0.3);
+    }
+
+    /* Macchia di luce morbida in alto a destra */
+    .card-atelier::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, rgba(236,72,153,0.6) 0%, rgba(236,72,153,0) 70%);
+      border-radius: 50%;
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    /* --- ICONA CREATIVA IN PURO CSS --- */
+    .icona-css {
+      position: relative;
+      width: 64px;
+      height: 64px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(8px); /* Effetto glassmorphism */
+      z-index: 1; /* La tiene sopra la macchia di luce */
+    }
+
+    /* Cerchio giallo (Il Sole / La forma) */
+    .forma-1 {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #fde047;
+      border-radius: 50%;
+      top: 12px;
+      left: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* Quadrato azzurro ruotato (Il quadro / La tela) */
+    .forma-2 {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      background: #38bdf8;
+      border-radius: 8px;
+      bottom: 12px;
+      right: 12px;
+      transform: rotate(15deg);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    /* --- TESTI --- */
+    .card-atelier h3 {
+      position: relative;
+      margin: 0 0 8px 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      z-index: 1;
+    }
+
+    .card-atelier p {
+      position: relative;
+      margin: 0 0 24px 0;
+      font-size: 0.95rem;
+      color: #cbd5e1; /* Grigio-azzurro chiarissimo per alta leggibilità */
+      line-height: 1.5;
+      z-index: 1;
+    }
+
+    /* --- BOTTONE --- */
+    .btn-atelier {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 0;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: background 0.2s;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      z-index: 1;
+    }
+
+    .btn-atelier:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
     </style>
 </head>
 <body class="relative">
@@ -262,6 +373,18 @@
 
         </div>
     </div>
+      <!-- CARD ATELIER DA INSERIRE NELLA TUA HOME PAGE -->
+  <div class="card-atelier">
+    <!-- Icona fatta in CSS per richiamare il tema -->
+    <div class="icona-css">
+      <div class="forma-1"></div>
+      <div class="forma-2"></div>
+</div>
+    
+    <h3>Atelier CSS</h3>
+    <p>La mia galleria di disegni in codice, panda rossi e animazioni interattive.</p>
+    <a href="https://css-artist-lab.netlify.app/" class="btn-atelier">Entra nel Laboratorio</a>
+  </div>
 
 </body>
 </html>
