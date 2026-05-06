@@ -943,7 +943,7 @@
         .card-tavolozza li:nth-child(4) a::before { background-color: #10b981; } /* Verde smeraldo */
         .card-tavolozza li:nth-child(5) a::before { background-color: #a855f7; } /* Viola acceso */
 .card-tavolozza li:nth-child(6) a::before { background-color: #FF00FF; } /* Viola acceso */
-        .card-tavolozza li:nth-child(7) a::before { background-color:   #64D5F2; } /* Viola acceso */
+       
       
          
 
@@ -957,6 +957,158 @@
             /* La goccia ruota e si espande leggermente */
             transform: translateY(-50%) scale(1.2) rotate(45deg);
         }
+ /* --- ALBUM INGRANDITO --- */
+    .album-css-grande {
+      position: relative;
+      /* Dimensioni aumentate per contenere la lista */
+      width: 320px; 
+      min-height: 380px; 
+      background: #27272a; 
+      border-radius: 4px 16px 16px 4px;
+      padding: 35px 25px 25px 35px; /* Spazio extra per i link */
+      color: #f8fafc;
+      transform: rotate(-3deg);
+      box-shadow: -6px 12px 20px rgba(0, 0, 0, 0.5), inset 8px 0 0 rgba(0, 0, 0, 0.3);
+      border-left: 16px solid #111827; 
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .album-css-grande:hover {
+      transform: translateY(-5px) rotate(-1deg);
+      box-shadow: -10px 18px 30px rgba(0, 0, 0, 0.6), inset 8px 0 0 rgba(0, 0, 0, 0.3);
+    }
+
+    /* --- EFFETTI CAOTICI --- */
+    .nastro-adesivo {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(4deg);
+      width: 110px;
+      height: 30px;
+      background: rgba(255, 255, 230, 0.3);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-left: 3px dashed rgba(255,255,255,0.4);
+      border-right: 3px dashed rgba(255,255,255,0.4);
+      z-index: 10;
+    }
+
+    .segnalibro-postit {
+      position: absolute;
+      top: 60px;
+      right: -18px;
+      width: 50px;
+      height: 35px;
+      background: #fde047;
+      transform: rotate(6deg);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+    
+    .segnalibro-2 {
+      position: absolute;
+      bottom: 80px;
+      right: -15px;
+      width: 45px;
+      height: 25px;
+      background: #38bdf8;
+      transform: rotate(-4deg);
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      z-index: -1;
+    }
+
+    .etichetta-album {
+      display: inline-block;
+      background: #ec4899;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      transform: rotate(-2deg);
+      align-self: flex-start;
+    }
+
+    .album-css-grande h3 {
+      margin: 0 0 5px 0;
+      font-size: 1.8rem;
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    .album-css-grande p.sottotitolo {
+      margin: 0 0 20px 0;
+      font-size: 0.95rem;
+      color: #94a3b8;
+      line-height: 1.4;
+      border-bottom: 1px dashed #475569;
+      padding-bottom: 15px;
+    }
+
+    /* --- LA LISTA DEI LINK (Indice degli schizzi) --- */
+    .lista-progetti {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      flex-grow: 1; /* Spinge il bottone in fondo */
+    }
+
+    .lista-progetti li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    /* Pallino della lista disegnato come uno scarabocchio */
+    .lista-progetti li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      background: transparent;
+      border: 2px solid #fde047;
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+
+    .lista-progetti a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-size: 1.05rem;
+      transition: color 0.2s, padding-left 0.2s;
+      display: inline-block;
+    }
+
+    .lista-progetti a:hover {
+      color: #fde047; /* Il link diventa giallo al passaggio del mouse */
+      padding-left: 5px; /* Piccolo movimento a destra per l'interazione */
+    }
+ /* --- BOTTONE --- */
+    .btn-schizzo {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background: rgba(253, 224, 71, 0.1);
+      color: #fde047;
+      border: 2px dashed #fde047;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+
+    .btn-schizzo:hover {
+      background: #fde047;
+      color: #1e1e1e;
+      border-style: solid;
+    }
+        
     </style>
 </head>
 <body>
@@ -1140,6 +1292,26 @@
             
           </ul>
         </div>
+        <! -- Card CSS -- >
+        <div class="album-css-grande">
+    <!-- Effetti di disordine -->
+    <div class="nastro-adesivo"></div>
+    <div class="segnalibro-postit"></div>
+    <div class="segnalibro-2"></div>
+
+    <div class="etichetta-album">Bozze & Codice</div>
+    <h3>CSS Artist</h3>
+    <p class="sottotitolo">Galleria degli esperimenti visivi e personaggi animati.</p>
+    
+    <!-- LISTA DEI LINK AI TUOI PROGETTI -->
+    <ul class="lista-progetti">
+      <li><a href="character-engine.html">CSS_ENGINE v5.1</a></li>
+      <li><a href="anatomy.html">Anatomy Sculptor Pro</a></li>
+      <li><a href="https://css-art-studio.vercel.app/">CSS Art Studio</a></li>
+      <li><a href="anatomy2.html">Anatomy Blueprint Studio</a></li>
+    </ul>
+              <a href="https://css-artist-lab.netlify.app/" class="btn-schizzo">+ Crea Nuovo Disegno</a>
+  </div>
       <!-- 7. IL CABINATO ARCADE (Giochi) -->
         <div class="app-group card-arcade">
             <h2 class="group-title">Arcade Zone</h2>
