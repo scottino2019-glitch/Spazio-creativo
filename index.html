@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Mio Hub - Scrivania Caotica</title>
+<script src="https://cdn.tailwindcss.com"></script>
     
     <style>
         * {
@@ -256,14 +257,14 @@
         .mac-btn.min { background: #ffbd2e; }
         .mac-btn.max { background: #27c93f; }
         .editor-content {
-            padding: 20px;
+            padding: 12px;
             font-family: 'Consolas', 'Courier New', monospace;
             color: #d4d4d4;
         }
         .card-editor .group-title {
             font-family: 'Consolas', monospace;
             color: #569cd6;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
         .card-editor a {
             color: #ce9178;
@@ -1215,6 +1216,55 @@
         </div>
 
         <!-- Gatto -- >
+  <!-- Contenitore Principale -->
+    <div class="relative w-80 mt-10 group">
+        
+        <!-- Orecchie del gatto -->
+        <div class="absolute -top-6 left-6 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-b-[28px] border-b-orange-400 transform -rotate-12 transition-transform duration-300 group-hover:rotate-0 group-hover:-translate-y-1"></div>
+        <div class="absolute -top-6 right-6 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-b-[28px] border-b-orange-400 transform rotate-12 transition-transform duration-300 group-hover:rotate-0 group-hover:-translate-y-1"></div>
+
+        <!-- Corpo della Card -->
+        <div class="bg-orange-400 rounded-3xl p-6 shadow-2xl relative z-10 border-4 border-orange-500 flex flex-col items-center">
+            
+            <!-- Faccia del gatto -->
+            <div class="flex justify-center items-center gap-5 mb-5 mt-2">
+                <!-- Occhio sx -->
+                <div class="w-4 h-4 bg-gray-900 rounded-full relative overflow-hidden">
+                    <div class="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-white rounded-full"></div>
+                </div>
+                <!-- Naso e baffi -->
+                <div class="relative flex flex-col items-center mt-2">
+                    <div class="w-3 h-2 bg-pink-300 rounded-full z-10"></div>
+                    <div class="absolute top-1 -left-4 w-3 h-0.5 bg-orange-200 rotate-12"></div>
+                    <div class="absolute top-2 -left-4 w-3 h-0.5 bg-orange-200 -rotate-12"></div>
+                    <div class="absolute top-1 -right-4 w-3 h-0.5 bg-orange-200 -rotate-12"></div>
+                    <div class="absolute top-2 -right-4 w-3 h-0.5 bg-orange-200 rotate-12"></div>
+                </div>
+                <!-- Occhio dx -->
+                <div class="w-4 h-4 bg-gray-900 rounded-full relative overflow-hidden">
+                    <div class="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-white rounded-full"></div>
+                </div>
+            </div>
+
+            <h2 class="text-white font-bold text-xl mb-4 tracking-wide">I Miei Link</h2>
+
+            <!-- Contenitore interno per i link -->
+            <div class="w-full bg-white/95 rounded-2xl p-4 flex flex-col gap-3">
+                <a href="https://character-marker.vercel.app/" class="flex items-center gap-3 p-3 bg-orange-50 hover:bg-orange-100 hover:-translate-y-1 rounded-xl transition-all text-orange-800 font-semibold shadow-sm">
+                    <span class="text-xl">🐱</span> Character Marker
+                </a>
+                <a href="generatore-kawaii.html" class="flex items-center gap-3 p-3 bg-orange-50 hover:bg-orange-100 hover:-translate-y-1 rounded-xl transition-all text-orange-800 font-semibold shadow-sm">
+                    <span class="text-xl">🫅</span> Genaratore di Kawaii
+                </a>
+                <a href="https://comic-studio-five.vercel.app/" class="flex items-center gap-3 p-3 bg-orange-50 hover:bg-orange-100 hover:-translate-y-1 rounded-xl transition-all text-orange-800 font-semibold shadow-sm">
+                    <span class="text-xl">🗯</span> Comix Studio
+                </a>
+            </div>
+        </div>
+
+        <!-- Coda del gatto -->
+        <div class="absolute -bottom-5 -right-2 w-16 h-16 border-b-8 border-r-8 border-orange-400 rounded-br-full transform origin-top-left transition-transform duration-500 hover:rotate-12 cursor-pointer z-0"></div>
+    </div>
         
                 <!-- 5. LA CARTELLA INTERATTIVA (File Manager) -->
         <div class="app-group card-cartella interactive-desk">
@@ -1316,6 +1366,111 @@
     </ul>
               <a href="https://css-artist-lab.netlify.app/" class="btn-schizzo">+ Crea Nuovo Disegno</a>
   </div>
+
+
+    <!-- Console / Studio Desk Container -->
+    <div class="relative w-80 mt-10 p-6 bg-zinc-800 rounded-lg shadow-2xl border-2 border-zinc-700 font-mono">
+        
+        <!-- Header: VU Meter / Monitor -->
+        <div class="bg-black p-3 rounded mb-6 border-2 border-zinc-900 shadow-inner flex justify-between items-center relative overflow-hidden">
+            <!-- Glare effect -->
+            <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none"></div>
+            
+            <div class="flex flex-col gap-1">
+                <span class="text-xs text-zinc-500 uppercase tracking-widest">Master L</span>
+                <div class="flex gap-0.5">
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-400 rounded-sm shadow-[0_0_5px_#4ade80]"></div>
+                    <div class="w-2 h-4 bg-yellow-400 rounded-sm"></div>
+                    <div class="w-2 h-4 bg-zinc-800 rounded-sm"></div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1">
+                <span class="text-xs text-zinc-500 uppercase tracking-widest text-right">Master R</span>
+                <div class="flex gap-0.5">
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-500 rounded-sm shadow-[0_0_5px_#22c55e]"></div>
+                    <div class="w-2 h-4 bg-green-400 rounded-sm shadow-[0_0_5px_#4ade80]"></div>
+                    <div class="w-2 h-4 bg-yellow-400 rounded-sm shadow-[0_0_5px_#facc15]"></div>
+                    <div class="w-2 h-4 bg-red-500 rounded-sm shadow-[0_0_5px_#ef4444] animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="text-zinc-400 font-bold text-sm mb-4 tracking-widest uppercase border-b border-zinc-700 pb-2">Track Links</h2>
+
+        <!-- Link Container / Mixer Channels -->
+        <div class="flex flex-col gap-4">
+            
+            <!-- Channel 1: GitHub -->
+            <a href="https://v-maker-studio.vercel.app/" class="group relative bg-zinc-700 hover:bg-zinc-600 p-3 rounded flex items-center gap-4 transition-colors border border-zinc-600 hover:border-zinc-500 shadow-md">
+                <!-- Manopola (Knob) -->
+                <div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center shadow-inner group-hover:rotate-45 transition-transform duration-300">
+                    <div class="w-1 h-3 bg-red-500 rounded-full -translate-y-1"></div>
+                </div>
+                <!-- Track Name -->
+                <div class="flex-1">
+                    <div class="text-xs text-zinc-400 mb-0.5">CH 01</div>
+                    <div class="font-bold text-white text-sm">V-Maker Studio</div>
+                </div>
+                <!-- Fader / Slider (decorativo) -->
+                <div class="w-8 h-12 bg-zinc-900 rounded-sm relative overflow-hidden border border-black">
+                    <div class="absolute bottom-2 left-1 right-1 h-2 bg-zinc-400 rounded-sm group-hover:bottom-6 transition-all duration-300 shadow-sm border-t border-white/50"></div>
+                </div>
+            </a>
+
+            <!-- Channel 2: Appunti -->
+            <a href="https://toonscriptstudio.netlify.app/" class="group relative bg-zinc-700 hover:bg-zinc-600 p-3 rounded flex items-center gap-4 transition-colors border border-zinc-600 hover:border-zinc-500 shadow-md">
+                <!-- Manopola (Knob) -->
+                <div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center shadow-inner group-hover:-rotate-45 transition-transform duration-300">
+                    <div class="w-1 h-3 bg-blue-500 rounded-full -translate-y-1"></div>
+                </div>
+                <!-- Track Name -->
+                <div class="flex-1">
+                    <div class="text-xs text-zinc-400 mb-0.5">CH 02</div>
+                    <div class="font-bold text-white text-sm">Toon Script Studio</div>
+                </div>
+                <!-- Fader / Slider (decorativo) -->
+                <div class="w-8 h-12 bg-zinc-900 rounded-sm relative overflow-hidden border border-black">
+                    <div class="absolute bottom-5 left-1 right-1 h-2 bg-zinc-400 rounded-sm group-hover:bottom-8 transition-all duration-300 shadow-sm border-t border-white/50"></div>
+                </div>
+            </a>
+
+            <!-- Channel 3: Design -->
+            <a href="#" class="group relative bg-zinc-700 hover:bg-zinc-600 p-3 rounded flex items-center gap-4 transition-colors border border-zinc-600 hover:border-zinc-500 shadow-md">
+                <!-- Manopola (Knob) -->
+                <div class="w-8 h-8 rounded-full bg-zinc-800 border-2 border-zinc-900 flex items-center justify-center shadow-inner group-hover:rotate-90 transition-transform duration-300">
+                    <div class="w-1 h-3 bg-green-500 rounded-full -translate-y-1"></div>
+                </div>
+                <!-- Track Name -->
+                <div class="flex-1">
+                    <div class="text-xs text-zinc-400 mb-0.5">CH 03</div>
+                    <div class="font-bold text-white text-sm">UI/UX Design</div>
+                </div>
+                <!-- Fader / Slider (decorativo) -->
+                <div class="w-8 h-12 bg-zinc-900 rounded-sm relative overflow-hidden border border-black">
+                    <div class="absolute bottom-1 left-1 right-1 h-2 bg-zinc-400 rounded-sm group-hover:bottom-5 transition-all duration-300 shadow-sm border-t border-white/50"></div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Decorazioni inferiori -->
+        <div class="mt-6 flex justify-between items-center border-t border-zinc-700 pt-3">
+            <div class="flex gap-2">
+                <div class="w-3 h-3 rounded-full bg-red-600 shadow-[0_0_8px_#dc2626]"></div>
+                <span class="text-[10px] text-zinc-500 uppercase">Rec</span>
+            </div>
+            <div class="text-[10px] text-zinc-500 uppercase">Analog Console 4000</div>
+        </div>
+
+    </div>
+
+
+
       <!-- 7. IL CABINATO ARCADE (Giochi) -->
         <div class="app-group card-arcade">
             <h2 class="group-title">Arcade Zone</h2>
@@ -1556,3 +1711,4 @@
 </script>
 </body>
 </html>
+
