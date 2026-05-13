@@ -207,18 +207,26 @@ async function generatePDF() {
   const editor = document.getElementById('editor');
 
   // 1. Salviamo gli stili originali per ripristinarli dopo
-  const originalHeight = element.style.height;
+  const originalElementHeight = element.style.height;
+  const originalEditorHeight = editor.style.height;
   const originalOverflow = editor.style.overflowY;
 
-  // 2. Espandiamo temporaneamente il foglio per mostrare TUTTO il contenuto
-  element.style.height = element.scrollHeight + 'px';
+  // 2. Calcoliamo l'altezza REALE basandoci sul testo dell'editor, aggiungendo 50px di margine finale
+  const fullHeight = editor.scrollHeight + 50;
+
+  // 3. Espandiamo tutto per mostrare il contenuto
+  element.style.height = fullHeight + 'px';
+  editor.style.height = fullHeight + 'px';
   editor.style.overflowY = 'visible';
+
+  // FONDAMENTALE: Aspettiamo 150 millisecondi affinché il browser "disegni" l'allungamento del foglio
+  await new Promise(resolve => setTimeout(resolve, 150));
 
   try {
     const canvas = await html2canvas(element, { 
       scale: 2, 
       useCORS: true,
-      windowHeight: element.scrollHeight // Assicura che catturi tutta l'altezza espansa
+      windowHeight: fullHeight // Diciamo alla libreria l'altezza esatta da catturare
     });
     
     const imgData = canvas.toDataURL('image/png');
@@ -228,19 +236,19 @@ async function generatePDF() {
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     
-    // Calcoliamo l'altezza totale dell'immagine scalata in proporzione alla larghezza dell'A4
+    // Altezza totale dell'immagine calcolata in proporzione alla pagina
     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
     
     let heightLeft = imgHeight;
     let position = 0;
 
-    // Aggiungiamo la prima pagina
+    // Inserisce la prima pagina
     pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
     heightLeft -= pageHeight;
 
-    // Se l'immagine è più lunga di una pagina A4, creiamo nuove pagine
+    // Crea le pagine successive se l'immagine sfora
     while (heightLeft > 0) {
-      position = position - pageHeight; // Spostiamo l'immagine verso l'alto per mostrare la parte successiva
+      position = position - pageHeight;
       pdf.addPage();
       pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
       heightLeft -= pageHeight;
@@ -251,15 +259,16 @@ async function generatePDF() {
     alert("Errore durante la generazione del PDF.");
     console.error(error);
   } finally {
-    // 3. Ripristiniamo l'altezza fissa e lo scroll come erano all'inizio
-    element.style.height = originalHeight;
+    // 4. Ripristiniamo tutto allo stato originale invisibilmente all'utente
+    element.style.height = originalElementHeight;
+    editor.style.height = originalEditorHeight;
     editor.style.overflowY = originalOverflow;
     
     btn.innerText = originalText;
     btn.disabled = false;
   }
 }
-    
+
   </script>
 </body>
 </html>
