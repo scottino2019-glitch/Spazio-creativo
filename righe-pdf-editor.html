@@ -197,38 +197,69 @@
         editor.innerHTML = "";
       }
     }
+async function generatePDF() {
+  const btn = document.getElementById('btnExport');
+  const originalText = btn.innerText;
+  btn.innerText = "Generazione in corso...";
+  btn.disabled = true;
 
-    async function generatePDF() {
-      const btn = document.getElementById('btnExport');
-      const originalText = btn.innerText;
-      btn.innerText = "Generazione in corso...";
-      btn.disabled = true;
+  const element = document.getElementById('printable-area');
+  const editor = document.getElementById('editor');
 
-      const element = document.getElementById('printable-area');
+  // 1. Salviamo gli stili originali per ripristinarli dopo
+  const originalHeight = element.style.height;
+  const originalOverflow = editor.style.overflowY;
 
-      try {
-        const canvas = await html2canvas(element, { 
-          scale: 2, 
-          useCORS: true 
-        });
-        
-        const imgData = canvas.toDataURL('image/png');
-        const { jsPDF } = window.jspdf;
-        
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save("quaderno_a_righe.pdf");
-      } catch (error) {
-        alert("Errore durante la generazione del PDF.");
-        console.error(error);
-      } finally {
-        btn.innerText = originalText;
-        btn.disabled = false;
-      }
+  // 2. Espandiamo temporaneamente il foglio per mostrare TUTTO il contenuto
+  element.style.height = element.scrollHeight + 'px';
+  editor.style.overflowY = 'visible';
+
+  try {
+    const canvas = await html2canvas(element, { 
+      scale: 2, 
+      useCORS: true,
+      windowHeight: element.scrollHeight // Assicura che catturi tutta l'altezza espansa
+    });
+    
+    const imgData = canvas.toDataURL('image/png');
+    const { jsPDF } = window.jspdf;
+    
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    
+    // Calcoliamo l'altezza totale dell'immagine scalata in proporzione alla larghezza dell'A4
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+    
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // Aggiungiamo la prima pagina
+    pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // Se l'immagine è più lunga di una pagina A4, creiamo nuove pagine
+    while (heightLeft > 0) {
+      position = position - pageHeight; // Spostiamo l'immagine verso l'alto per mostrare la parte successiva
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+      heightLeft -= pageHeight;
     }
+
+    pdf.save("quaderno_personalizzato.pdf");
+  } catch (error) {
+    alert("Errore durante la generazione del PDF.");
+    console.error(error);
+  } finally {
+    // 3. Ripristiniamo l'altezza fissa e lo scroll come erano all'inizio
+    element.style.height = originalHeight;
+    editor.style.overflowY = originalOverflow;
+    
+    btn.innerText = originalText;
+    btn.disabled = false;
+  }
+}
+    
   </script>
 </body>
 </html>
