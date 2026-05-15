@@ -1111,6 +1111,160 @@
       border-style: solid;
     }
         
+        /* Core Card Container */
+        .card-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 3/4;
+            perspective: 1200px;
+        }
+
+        .card-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            clip-path: polygon(0% 15%, 5% 15%, 8% 0%, 45% 0%, 50% 15%, 100% 15%, 100% 100%, 0% 100%); padding: 20% 10% 10% 10%;
+        }
+
+        .card-body:hover {
+            transform: scale(1.03) translateY(-15px) rotateY(2deg);
+        }
+
+        .card-header {
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            font-weight: 950;
+            line-height: 0.7;
+            letter-spacing: -3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            transition: letter-spacing 1s;
+        }
+
+        .card-body:hover .card-title {
+            letter-spacing: 0;
+        }
+
+        .card-divider {
+            height: 6px;
+            width: 120px;
+            background: currentColor;
+            opacity: 0.2;
+            border-radius: 99px;
+            transition: width 1s ease-out;
+        }
+
+        .card-body:hover .card-divider {
+            width: 100%;
+        }
+
+        .content-area {
+            flex: 1;
+            position: relative;
+            z-index: 20; /* Assicura che la lista sia cliccabile */
+        }
+
+        /* Reflections layer */
+        .gloss {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);
+            z-index: 5;
+        }
+
+        /* User Custom CSS Ripristinato */
+        .folder-content { font-family: var(--font-display); }
+        .badge-ani { 
+          background: #fee2e2; color: #991b1b; font-size: 1.2rem; font-weight: 900; 
+          padding: 10px 20px; border-radius: 4px; display: inline-block; 
+          margin-bottom: 20px; border: 2px solid #991b1b;
+          animation: blink-soft 2s infinite; font-family: var(--font-mono); /* Fallback font */
+        }
+        @keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .divider { height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0; }
+        
+        .stamp-ani { 
+          font-family: var(--font-mono); font-size: 3rem; color: #f87171; 
+          border: 4px solid #f87171; padding: 10px 30px; display: inline-block;
+          transform: rotate(-15deg); animation: stomp 0.5s forwards 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          opacity: 0;
+          position: absolute; top: 120px; right: 10%; /* Posizionamento assoluto per non rompere il layout dei link */
+          pointer-events: none; z-index: 25;
+        }
+        @keyframes stomp { from { transform: scale(5) rotate(-45deg); opacity: 0; } to { transform: scale(1) rotate(-15deg); opacity: 0.4; } }
+        
+        /* Foto e puntina ripristinate */
+        .photo-ani { 
+          width: 140px; height: 160px; background: #451a03; border: 8px solid white; 
+          box-shadow: 0 10px 20px rgba(0,0,0,0.5); position: absolute; bottom: 0; right: 0;
+          transform: rotate(10deg); overflow: hidden; z-index: 10;
+        }
+        .pin { width: 12px; height: 12px; background: #ef4444; border-radius: 50%; position: absolute; top: 10px; left: 50%; translate: -50%; }
+
+        /* Stili aggiunti per la lista dei link */
+        .app-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-family: var(--font-mono); 
+            position: relative;
+            z-index: 30;
+            width: 75%; /* Ridotta la larghezza per non coprire la fotografia */
+        }
+
+        .app-list li {
+            margin-bottom: 8px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .app-list li:hover {
+            transform: translateX(12px);
+        }
+
+        .app-list a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.15); 
+            border-left: 3px solid #f87171; 
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .app-list a:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-left-color: var(--text-color);
+        }
+
+        /* Custom headings normalization */
+        .content-area h1, .content-area h2, .content-area h3 { 
+            line-height: 0.8 !important; 
+            margin-bottom: 1.5rem !important; 
+            font-family: var(--font-display); 
+            font-weight: 950; 
+            letter-spacing: -2px; 
+        }
+        
     </style>
 </head>
 <body>
@@ -1198,22 +1352,43 @@
             </ul>
         </div>
              <!-- 6. IL BLOCCO SCHIZZI (UI / Design) -->
-        <div class="app-group card-blocco">
-            <h2 class="group-title">Pdf e altri utility</h2>
-            <ul class="app-list">
-                <li><a href="editor-pdf-quadretti.html">📝 Pdf editor a quadretti</a></li>
-                <li><a href="righe-pdf-editor.html"> 📄 Pdf editor a righe</a></li>
-                <li><a href="pdf-creator.html">📃 Pdf Creator</a></li>
-                <li><a href="generatore-card-orientali.html">🧧 Creatore di Card Orientali</a></li>
-                <li><a href="hanziBuilderPro.html">㊗ Hanzi Builder Pro</a></li>
-                
-                
+    <div class="card-wrapper">
+        <div class="card-body">
+            <div class="gloss"></div>
+            
+            <div class="card-header">
+                <h2 class="card-title">App e Editor</h2>
+                <div class="card-divider"></div>
+            </div>
 
+            <div class="content-area">
                 
-                
+                <div class="folder-content">
+                  <div class="badge-ani">URGENTE</div>
+                  <h3>pdf e altre utility</h3>
+                  <div class="divider"></div>
+                  
+                  <!-- Lista dei link inserita -->
+                  <ul class="app-list">
+                      <li><a href="editor-pdf-quadretti.html">📝 Pdf editor a quadretti</a></li>
+                      <li><a href="righe-pdf-editor.html"> 📄 Pdf editor a righe</a></li>
+                      <li><a href="pdf-creator.html">📃 Pdf Creator</a></li>
+                      <li><a href="generatore-card-orientali.html">🧧 Creatore di Card Orientali</a></li>
+                      <li><a href="hanziBuilderPro.html">㊗ Hanzi Builder Pro</a></li>
+                  </ul>
 
-            </ul>
+                  <!-- Timbro ripristinato in sovrapposizione -->
+                  <div class="stamp-ani">TOP SECRET</div>
+                  
+                  <!-- Foto con la puntina da disegno ripristinata -->
+                  <div class="photo-ani">
+                     <div class="pin"></div>
+                  </div>
+                </div>
+                
+            </div>
         </div>
+    </div>
 <!-- Gatto Cicciotto -->
   <!-- Contenitore Principale (più largo) -->
     <div class="relative w-96 mt-10 group">
