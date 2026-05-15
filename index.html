@@ -1297,7 +1297,7 @@
         /* --- Produttività --- */
         
         /* Core Card Container */
-        .card-wrapper {
+        .card-wrapper2 {
             position: relative;
             width: 100%;
             max-width: 480px;
@@ -1305,7 +1305,7 @@
             perspective: 1200px;
         }
 
-        .card-body {
+        .card-body2 {
             position: relative;
             width: 100%;
             height: 100%;
@@ -1322,17 +1322,17 @@
             
         }
 
-        .card-body:hover {
+        .card-body2:hover {
             transform: scale(1.03) translateY(-15px) rotateY(2deg);
         }
 
-        .card-header {
+        .card-header2 {
             margin-bottom: 2rem;
             position: relative;
             z-index: 10;
         }
 
-        .card-title {
+        .card-title2 {
             font-family: var(--font-display);
             font-size: 3.5rem;
             font-weight: 950;
@@ -1343,12 +1343,12 @@
             transition: all 1s;
         }
 
-        .card-body:hover .card-title {
+        .card-body2:hover .card-title {
             letter-spacing: 0;
             transform: scale(1.05);
         }
 
-        .card-divider {
+        .card-divider2 {
             height: 4px;
             width: 120px;
             background: currentColor;
@@ -1357,11 +1357,11 @@
             transition: width 1s ease-out;
         }
 
-        .card-body:hover .card-divider {
+        .card-body2:hover .card-divider {
             width: 100%;
         }
 
-        .content-area {
+        .content-area2 {
             flex: 1;
             position: relative;
             z-index: 10;
@@ -1371,7 +1371,7 @@
         }
 
         /* Reflections layer */
-        .gloss {
+        .gloss2 {
             position: absolute;
             inset: 0;
             pointer-events: none;
@@ -1380,7 +1380,7 @@
         }
 
         /* Overlays / Decorations */
-        .decor { position: absolute; pointer-events: none; }
+        .decor2 { position: absolute; pointer-events: none; }
         
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } }
         @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
@@ -1390,27 +1390,27 @@
 
         /* User Custom CSS */
         
-.note-paper { font-family: var(--font-hand); }
-.marker-ani { font-family: var(--font-marker); font-size: 3.5rem; margin-bottom: 2rem; transform: rotate(-5deg); color: #2563EB; }
-.task-list-ani { list-style: none; font-size: 2.2rem; }
-.task-list-ani li { padding: 15px 0; border-bottom: 3px dashed #e2e8f0; animation: shake-in 0.5s forwards; opacity: 0; }
-.task-list-ani li:nth-child(1) { animation-delay: 0.3s; }
-.task-list-ani li:nth-child(2) { animation-delay: 0.6s; }
-.task-list-ani li:nth-child(3) { animation-delay: 0.9s; }
-.task-list-ani a {
+.note-paper2 { font-family: var(--font-hand); }
+.marker-ani2 { font-family: var(--font-marker); font-size: 3.5rem; margin-bottom: 2rem; transform: rotate(-5deg); color: #2563EB; }
+.task-list-ani2 { list-style: none; font-size: 2.2rem; }
+.task-list-ani2 li { padding: 15px 0; border-bottom: 3px dashed #e2e8f0; animation: shake-in 0.5s forwards; opacity: 0; }
+.task-list-ani2 li:nth-child(1) { animation-delay: 0.3s; }
+.task-list-ani2 li:nth-child(2) { animation-delay: 0.6s; }
+.task-list-ani2 li:nth-child(3) { animation-delay: 0.9s; }
+.task-list-ani2 a {
             color: #4a3b22;
             font-family: system-ui, sans-serif;
             font-weight: 500;
         }
-.task-list-ani a:hover {
+.task-list-ani2 a:hover {
             color: #ef4444; /* Rosso correzione */
             text-decoration: underline wavy #ef4444;
         } 
 @keyframes shake-in { 0% { transform: translateX(-50px); opacity: 0; } 80% { transform: translateX(10px); opacity: 1; } 100% { transform: translateX(0); opacity: 1; } }
-.scribble-mask { position: absolute; bottom: 0; right: 0; width: 150px; height: 150px; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10,10 Q90,50 10,90" fill="none" stroke="black" stroke-width="2" opacity="0.1"/></svg>'); }
+.scribble-mask2 { position: absolute; bottom: 0; right: 0; width: 150px; height: 150px; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10,10 Q90,50 10,90" fill="none" stroke="black" stroke-width="2" opacity="0.1"/></svg>'); }
 
         /* Custom headings normalization */
-        .content-area h1, .content-area h2, .content-area h3 { 
+        .content-area2 h1, .content-area h2, .content-area h3 { 
             line-height: 0.8 !important; 
             margin-bottom: 1.5rem !important; 
             font-family: var(--font-display); 
@@ -1691,25 +1691,25 @@
               <a href="https://artisan-studio-psi.vercel.app/" class="btn-schizzo">+ Crea Nuovo background</a>
   </div>
      <!-- 9. LA BACHECA (To-Do / Produttività) -->
-         <div class="card-wrapper">
-        <div class="card-body">
-            <div class="gloss"></div>
+         <div class="card-wrapper2">
+        <div class="card-body2">
+            <div class="gloss2"></div>
             
-            <div class="card-header">
-                <h2 class="card-title">Produttivita'</h2>
-                <div class="card-divider"></div>
+            <div class="card-header2">
+                <h2 class="card-title2">Produttivita'</h2>
+                <div class="card-divider2"></div>
             </div>
 
-            <div class="content-area">
+            <div class="content-area2">
                 
-<div class="note-paper">
-  <h2 class="marker-ani">RICORDA!</h2>
-  <ul class="task-list-ani">
+<div class="note-paper2">
+  <h2 class="marker-ani2">RICORDA!</h2>
+  <ul class="task-list-ani2">
      <li><a href="#" onclick="openModal(event, './task-tracker.html', '✅ Task Tracker')">✅ Task Tracker</a></li>
       <li><a href="#" onclick="openModal(event, 'pomodoro.html', '⏱️ Pomodoro Timer')">⏱️ Pomodoro Timer</a></li>
     <li><a href="#" onclick="openModal(event, './sticky-notes.html', '📌 Sticky Notes App')">📌 Sticky Notes App</a></li>
   </ul>
-  <div class="scribble-mask"></div>
+  <div class="scribble-mask2"></div>
 </div>
             </div>
 
