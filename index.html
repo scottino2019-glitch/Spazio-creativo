@@ -1110,12 +1110,11 @@
       color: #1e1e1e;
       border-style: solid;
     }
-        
-        /* Core Card Container */
-        .card-wrapper {
+/* ----------Flonder ------- */
+ .card-wrapper {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 620px;
             aspect-ratio: 3/4;
             perspective: 1200px;
         }
@@ -1124,14 +1123,16 @@
             position: relative;
             width: 100%;
             height: 100%;
-            background-color: var(--bg-color);
+           background: #b45309;
             color: var(--text-color);
             transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
             box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            clip-path: polygon(0% 15%, 5% 15%, 8% 0%, 45% 0%, 50% 15%, 100% 15%, 100% 100%, 0% 100%); padding: 20% 10% 10% 10%;
+            clip-path: polygon(0% 15%, 5% 15%, 8% 0%, 45% 0%, 50% 15%, 100% 15%, 100% 100%, 0% 100%);
+            padding: 20% 10% 12% 10%;
+            isolation: isolate;
         }
 
         .card-body:hover {
@@ -1175,94 +1176,123 @@
         .content-area {
             flex: 1;
             position: relative;
-            z-index: 20; /* Assicura che la lista sia cliccabile */
+            z-index: 10;
         }
 
-        /* Reflections layer */
         .gloss {
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(0,0,0,0.16) 100%);
             z-index: 5;
         }
 
-        /* User Custom CSS Ripristinato */
-        .folder-content { font-family: var(--font-display); }
-        .badge-ani { 
-          background: #fee2e2; color: #991b1b; font-size: 1.2rem; font-weight: 900; 
-          padding: 10px 20px; border-radius: 4px; display: inline-block; 
-          margin-bottom: 20px; border: 2px solid #991b1b;
-          animation: blink-soft 2s infinite; font-family: var(--font-mono); /* Fallback font */
-        }
-        @keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-        .divider { height: 2px; background: rgba(255,255,255,0.1); margin: 20px 0; }
-        
-        .stamp-ani { 
-          font-family: var(--font-mono); font-size: 3rem; color: #f87171; 
-          border: 4px solid #f87171; padding: 10px 30px; display: inline-block;
-          transform: rotate(-15deg); animation: stomp 0.5s forwards 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-          opacity: 0;
-          position: absolute; top: 120px; right: 10%; /* Posizionamento assoluto per non rompere il layout dei link */
-          pointer-events: none; z-index: 25;
-        }
-        @keyframes stomp { from { transform: scale(5) rotate(-45deg); opacity: 0; } to { transform: scale(1) rotate(-15deg); opacity: 0.4; } }
-        
-        /* Foto e puntina ripristinate */
-        .photo-ani { 
-          width: 140px; height: 160px; background: #451a03; border: 8px solid white; 
-          box-shadow: 0 10px 20px rgba(0,0,0,0.5); position: absolute; bottom: 0; right: 0;
-          transform: rotate(10deg); overflow: hidden; z-index: 10;
-        }
-        .pin { width: 12px; height: 12px; background: #ef4444; border-radius: 50%; position: absolute; top: 10px; left: 50%; translate: -50%; }
+        .decor { position: absolute; pointer-events: none; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.1); } }
+        .blink { animation: pulse 1s infinite; }
 
-        /* Stili aggiunti per la lista dei link */
+        .folder-content { font-family: var(--font-display); }
+
+        .badge-ani {
+            background: #fee2e2;
+            color: #991b1b;
+            font-size: 1.2rem;
+            font-weight: 900;
+            padding: 10px 20px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 2px solid #991b1b;
+            animation: blink-soft 2s infinite;
+            font-family: var(--font-mono);
+        }
+
+        @keyframes blink-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        .divider {
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            margin: 30px 0 20px 0;
+        }
+
         .app-list {
             list-style: none;
-            padding: 0;
             margin: 0;
-            font-family: var(--font-mono); 
-            position: relative;
-            z-index: 30;
-            width: 75%; /* Ridotta la larghezza per non coprire la fotografia */
+            padding: 0;
+            width: 72%;
         }
 
         .app-list li {
             margin-bottom: 8px;
-            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .app-list li:hover {
-            transform: translateX(12px);
         }
 
         .app-list a {
+            display: block;
             color: var(--text-color);
             text-decoration: none;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 12px;
-            background: rgba(0, 0, 0, 0.15); 
-            border-left: 3px solid #f87171; 
-            border-radius: 4px;
-            backdrop-filter: blur(4px);
-            transition: background 0.2s, border-color 0.2s;
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            padding: 8px 10px;
+            background: rgba(0,0,0,0.14);
+            border-radius: 6px;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .app-list a:hover {
-            background: rgba(0, 0, 0, 0.3);
-            border-left-color: var(--text-color);
+            background: rgba(0,0,0,0.24);
+            transform: translateX(6px);
         }
 
-        /* Custom headings normalization */
-        .content-area h1, .content-area h2, .content-area h3 { 
-            line-height: 0.8 !important; 
-            margin-bottom: 1.5rem !important; 
-            font-family: var(--font-display); 
-            font-weight: 950; 
-            letter-spacing: -2px; 
+        .stamp-ani {
+            font-family: var(--font-mono);
+            font-size: 3rem;
+            color: #f87171;
+            border: 4px solid #f87171;
+            padding: 10px 30px;
+            display: inline-block;
+            transform: rotate(-15deg);
+            animation: stomp 0.5s forwards 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            position: absolute;
+            right: 10px;
+            bottom: 80px;
+        }
+
+        @keyframes stomp {
+            from { transform: scale(5) rotate(-45deg); opacity: 0; }
+            to { transform: scale(1) rotate(-15deg); opacity: 0.4; }
+        }
+
+        .photo-ani {
+            width: 140px;
+            height: 160px;
+            background: #451a03;
+            border: 8px solid white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            transform: rotate(10deg);
+            overflow: hidden;
+        }
+
+        .pin {
+            width: 12px;
+            height: 12px;
+            background: #ef4444;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            translate: -50%;
+        }
+
+        .content-area h1, .content-area h2, .content-area h3 {
+            line-height: 0.8 !important;
+            margin-bottom: 1.5rem !important;
+            font-family: var(--font-display);
+            font-weight: 950;
+            letter-spacing: -2px;
         }
         
     </style>
@@ -1351,7 +1381,39 @@
                 <li><a href="https://vox-libro.vercel.app/">🎧 Audiolibro </a></li>
             </ul>
         </div>
-            
+             <!-- 6. IL BLOCCO SCHIZZI (UI / Design) -->
+       <div class="card-wrapper">
+        <div class="card-body">
+            <div class="gloss"></div>
+
+            <div class="card-header">
+                <h2 class="card-title">Editor e App</h2>
+                <div class="card-divider"></div>
+            </div>
+
+            <div class="content-area">
+                <div class="folder-content">
+                    <div class="badge-ani">URGENTE</div>
+                    <h3>Pdf e Card studio</h3>
+                    <div class="divider"></div>
+
+                    <ul class="app-list">
+                        <li><a href="editor-pdf-quadretti.html">📝 Pdf editor a quadretti</a></li>
+                        <li><a href="righe-pdf-editor.html">📄 Pdf editor a righe</a></li>
+                        <li><a href="pdf-creator.html">📃 Pdf Creator</a></li>
+                        <li><a href="generatore-card-orientali.html">🧧 Creatore di Card Orientali</a></li>
+                        <li><a href="hanziBuilderPro.html">㊗ Hanzi Builder Pro</a></li>
+                    </ul>
+
+                    <div class="stamp-ani">TOP SECRET</div>
+
+                    <div class="photo-ani">
+                        <div class="pin"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <!-- Gatto Cicciotto -->
   <!-- Contenitore Principale (più largo) -->
     <div class="relative w-96 mt-10 group">
@@ -1624,44 +1686,6 @@
     </div>
 
 </div>
-         <!-- 6. IL BLOCCO SCHIZZI (UI / Design) -->
-    <div class="card-wrapper">
-        <div class="card-body">
-            <div class="gloss"></div>
-            
-            <div class="card-header">
-                <h2 class="card-title">App e Editor</h2>
-                <div class="card-divider"></div>
-            </div>
-
-            <div class="content-area">
-                
-                <div class="folder-content">
-                  <div class="badge-ani">URGENTE</div>
-                  <h3>pdf e altre utility</h3>
-                  <div class="divider"></div>
-                  
-                  <!-- Lista dei link inserita -->
-                  <ul class="app-list">
-                      <li><a href="editor-pdf-quadretti.html">📝 Pdf editor a quadretti</a></li>
-                      <li><a href="righe-pdf-editor.html"> 📄 Pdf editor a righe</a></li>
-                      <li><a href="pdf-creator.html">📃 Pdf Creator</a></li>
-                      <li><a href="generatore-card-orientali.html">🧧 Creatore di Card Orientali</a></li>
-                      <li><a href="hanziBuilderPro.html">㊗ Hanzi Builder Pro</a></li>
-                  </ul>
-
-                  <!-- Timbro ripristinato in sovrapposizione -->
-                  <div class="stamp-ani">TOP SECRET</div>
-                  
-                  <!-- Foto con la puntina da disegno ripristinata -->
-                  <div class="photo-ani">
-                     <div class="pin"></div>
-                  </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
 
             <!-- IL MODAL PER LE APP (Inizialmente nascosto) -->
     <div id="appModal" class="modal-overlay">
@@ -1889,4 +1913,5 @@
 </script>
 </body>
 </html>
+
 
