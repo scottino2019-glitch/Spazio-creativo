@@ -1272,7 +1272,266 @@
       transform: translateY(4px);
       box-shadow: 0 0 0 #7f1d1d;
     }
-       
+/* MOOD BOARD APP */
+.card-mood {
+    background-color: #d4a373; /* Colore sughero */
+    background-image: radial-gradient(#8b5a2b 0.5px, transparent 0.5px);
+    background-size: 15px 15px;
+    border: 10px solid #5c4033;
+    transform: rotate(1deg);
+    display: flex;
+    flex-direction: column;
+    padding: 20px !important;
+    overflow: hidden;
+}
+
+.mood-controls {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    z-index: 10;
+}
+
+.mood-controls input, .mood-controls button {
+    padding: 5px;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    border: 1px solid #5c4033;
+}
+
+.mood-display {
+    flex-grow: 1;
+    position: relative;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Stile Foto Polaroid */
+.mood-item {
+    background: white;
+    padding: 5px 5px 15px 5px;
+    box-shadow: 3px 5px 10px rgba(0,0,0,0.3);
+    transform: rotate(var(--r));
+    transition: transform 0.3s;
+    cursor: move;
+    position: relative;
+}
+
+.mood-item img {
+    width: 100%;
+    height: 80px;
+    object-fit: cover;
+}
+
+.mood-item .caption {
+    font-family: 'Indie Flower', cursive;
+    font-size: 0.7rem;
+    color: #333;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.mood-item .remove-mood {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+/* CALENDARIO APP - STILE FOGLIO STRAPPATO */
+.card-calendario {
+    background: #fffdfa;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 94%, 95% 98%, 90% 94%, 85% 96%, 80% 94%, 75% 99%, 70% 94%, 65% 97%, 60% 94%, 55% 98%, 50% 94%, 45% 97%, 40% 94%, 35% 98%, 30% 94%, 25% 99%, 20% 94%, 15% 97%, 10% 94%, 5% 99%, 0% 94%);
+    padding: 0 !important;
+    transform: rotate(-1.5deg);
+    box-shadow: 5px 10px 20px rgba(0,0,0,0.3);
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+}
+
+.cal-top {
+    height: 25px;
+    background: #f3f4f6;
+    border-bottom: 2px dashed #9ca3af;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding-top: 5px;
+}
+
+.cal-hole {
+    width: 8px;
+    height: 8px;
+    background: #121826;
+    border-radius: 50%;
+}
+
+.cal-body {
+    padding: 15px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.cal-month { text-transform: uppercase; letter-spacing: 3px; font-weight: bold; color: #6b7280; font-size: 0.8rem; }
+.cal-day { font-size: 3.5rem; font-weight: 900; line-height: 1; color: #ef4444; font-family: 'Georgia', serif; }
+.cal-weekday { font-size: 1rem; color: #9ca3af; margin-bottom: 10px; }
+
+/* Area interattiva: la nota del giorno */
+.cal-note-area {
+    border-top: 1px solid #eee;
+    padding: 10px;
+    background: rgba(254, 243, 199, 0.3); /* Leggero giallino post-it */
+}
+
+.cal-note-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    font-family: 'Courier New', Courier, monospace; /* Font macchina da scrivere */
+    font-size: 0.9rem;
+    color: #374151;
+    text-align: center;
+    outline: none;
+    resize: none;
+}
+/* -- snippet app -- */
+.card-snippet {
+    background: #1e1e1e;
+    border-radius: 6px;
+    border: 1px solid #333;
+    box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+    transform: rotate(1deg);
+    display: flex;
+    flex-direction: column;
+}
+.snippet-header {
+    background: #333;
+    padding: 5px 10px;
+    display: flex;
+    gap: 5px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+
+.snippet-input-area {
+    padding: 10px;
+    background: #1e1e1e;
+}
+.snippet-textarea {
+    width: 100%;
+    background: #252526;
+    color: #d4d4d4;
+    font-family: 'Consolas', monospace;
+    font-size: 0.8rem;
+    border: 1px solid #444;
+    padding: 8px;
+    resize: vertical;
+}
+.snippet-list {
+    max-height: 150px;
+    overflow-y: auto;
+    padding: 10px;
+    border-top: 1px solid #333;
+}
+.snippet-item {
+    background: #2d2d2d;
+    margin-bottom: 5px;
+    padding: 5px;
+    font-size: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* -- Link manager -- */
+/* CARD PREFERITI - STILE TACCUINO */
+.card-links-app {
+    background: #fdf6e3; /* Colore carta avorio */
+    border-left: 15px solid #2d3748; /* Bordo scuro che simula la rilegatura */
+    border-radius: 4px 8px 8px 4px;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.2);
+    transform: rotate(1deg);
+    position: relative;
+    padding: 15px 15px 15px 25px !important; /* Spazio per la spirale */
+}
+
+/* Effetto spirale/buchi della rilegatura */
+.card-links-app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 10px;
+    height: 100%;
+    background-image: radial-gradient(circle, #121826 4px, transparent 5px);
+    background-size: 100% 25px;
+}
+
+.link-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.link-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    padding: 2px;
+    color: #444;
+}
+
+.link-input:focus {
+    outline: none;
+    border-bottom: 1px solid #2563eb;
+}
+
+.link-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05); /* Righe del quaderno */
+}
+
+.link-item a {
+    color: #1e40af;
+    text-decoration: none;
+    font-family: 'system-ui';
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+}
+
+.link-item a:hover {
+    color: #ef4444;
+    text-decoration: underline;
+}
+
+.btn-add-link {
+    background: #2d3748;
+    color: white;
+    font-size: 0.7rem;
+    padding: 4px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
     </style>
 </head>
 <body>
@@ -1294,11 +1553,59 @@
     <header>
         <h1>Il Mio Multiverso</h1>
         <p>Tutti i miei progetti raccolti sulla mia scrivania digitale.</p>
+
+    
     </header>
     
     
 
     <main id="desk" class="desk-container">
+<div class="app-group card-links-app">
+    <div class="group-title">Preferiti 🔖</div>
+    <div class="link-input-group">
+        <input type="text" id="linkTitle" placeholder="Titolo" class="link-input">
+        <input type="text" id="linkUrl" placeholder="https://..." class="link-input">
+        <button onclick="addLink()" class="bg-indigo-500 text-white px-2 rounded">＋</button>
+    </div>
+    <div id="linksDisplay" class="app-list">
+        </div>
+</div>
+
+<div class="app-group card-calendario">
+    <div class="cal-top">
+        <div class="cal-hole"></div>
+        <div class="cal-hole"></div>
+        <div class="cal-hole"></div>
+    </div>
+    
+    <div class="cal-body">
+        <div class="cal-month" id="curr-month">---</div>
+        <div class="cal-day" id="curr-day">00</div>
+        <div class="cal-weekday" id="curr-weekday">---</div>
+    </div>
+
+    <div class="cal-note-area">
+        <textarea id="calNote" class="cal-note-input" placeholder="Nota di oggi..." rows="2"></textarea>
+    </div>
+</div>
+<div class="app-group card-mood">
+    <div class="group-title" style="color: #fff; text-shadow: 2px 2px #5c4033;">Mood Board 🖼️</div>
+    
+    <div class="mood-controls">
+        <input type="text" id="moodInput" placeholder="URL Foto o Pensiero..." class="text-black flex-grow">
+        <button onclick="addMoodItem()" class="bg-green-600 text-white">📌</button>
+    </div>
+
+    <div id="moodDisplay" class="mood-display">
+        <div class="mood-item" style="--r: -3deg">
+            <img src="https://picsum.photos/seed/art/200">
+            <div class="caption">Inspiration</div>
+        </div>
+        <div class="mood-item" style="--r: 2deg">
+            <div class="caption" style="font-size: 1rem; padding: 10px;">"Il caos è l'ordine non ancora decifrato."</div>
+        </div>
+    </div>
+</div>
 
         <!-- 1. LA LAVAGNA (Studio / Lingue) -->
         <div class="app-group card-lavagna">
@@ -1331,7 +1638,20 @@
                 </ul>
             </div>
         </div>
-
+<! -- Snippet app -->
+<div class="app-group card-snippet">
+    <div class="snippet-header">
+        <div class="dot red"></div>
+        <div class="dot yellow"></div>
+        <div class="dot green"></div>
+        <span style="font-size: 0.7rem; color: #888; margin-left: 10px;">code_snippets.js</span>
+    </div>
+    <div class="snippet-input-area">
+        <textarea id="snippetInput" class="snippet-textarea" placeholder="// Incolla codice qui..." rows="3"></textarea>
+        <button onclick="saveSnippet()" class="w-full mt-2 bg-blue-600 text-white text-xs py-1 rounded">Salva Snippet</button>
+    </div>
+    <div id="snippetList" class="snippet-list"></div>
+</div>
         <!-- 3. L'AGENDA (Ufficio / Utility) -->
         <div class="app-group card-agenda">
             <h2 class="group-title">Utility & Ufficio</h2>
@@ -2134,8 +2454,190 @@ const jsonInput = document.getElementById('jsonInput');
         showMessage('❌ JSON non valido. Controlla virgole, parentesi o virgolette.', 'text-red-700');
       }
     });
+// Configurazione Iniziale
+const MOOD_STORAGE_KEY = 'my_mood_board_data';
+
+// 1. Caricamento al boot
+window.addEventListener('DOMContentLoaded', () => {
+    renderAllMoods();
+});
+
+function renderAllMoods() {
+    const display = document.getElementById('moodDisplay');
+    display.innerHTML = ''; // Pulisce tutto
+    
+    const savedData = JSON.parse(localStorage.getItem(MOOD_STORAGE_KEY));
+    
+    // Se è la prima volta in assoluto e il database è vuoto, mettiamo gli esempi
+    // Se invece hai già cancellato tutto, savedData sarà un array vuato [] e non mostrerà nulla
+    let itemsToShow = savedData;
+    
+    if (savedData === null) {
+        // Esempi iniziali (appariranno solo la prima volta)
+        itemsToShow = [
+            { id: 1, text: 'https://picsum.photos/seed/art/200' },
+            { id: 2, text: 'Il caos è l\'ordine non ancora decifrato.' }
+        ];
+        localStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(itemsToShow));
+    }
+
+    itemsToShow.forEach(item => {
+        const div = createMoodElement(item.text, item.id);
+        display.appendChild(div);
+    });
+}
+
+function addMoodItem() {
+    const input = document.getElementById('moodInput');
+    const val = input.value.trim();
+    if (!val) return;
+
+    const newItem = { id: Date.now(), text: val };
+    
+    // Aggiorna Memoria
+    const data = JSON.parse(localStorage.getItem(MOOD_STORAGE_KEY)) || [];
+    data.push(newItem);
+    localStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(data));
+
+    // Aggiorna Vista
+    const display = document.getElementById('moodDisplay');
+    display.prepend(createMoodElement(newItem.text, newItem.id));
+    
+    input.value = '';
+}
+
+function createMoodElement(val, id) {
+    const div = document.createElement('div');
+    div.className = 'mood-item';
+    const randomRot = (Math.random() * 10 - 5).toFixed(2);
+    div.style.setProperty('--r', `${randomRot}deg`);
+    
+    const isImage = val.match(/\.(jpeg|jpg|gif|png|webp)$/) != null || val.startsWith('http');
+
+    div.innerHTML = `
+        <span class="remove-mood" onclick="deleteMood(${id})">✕</span>
+        ${isImage ? `<img src="${val}">` : ''}
+        <div class="caption">${isImage ? 'Inspiration' : val}</div>
+    `;
+    return div;
+}
+
+function deleteMood(id) {
+    // 1. Rimuovi dalla memoria locale
+    let data = JSON.parse(localStorage.getItem(MOOD_STORAGE_KEY)) || [];
+    data = data.filter(item => item.id !== id);
+    localStorage.setItem(MOOD_STORAGE_KEY, JSON.stringify(data));
+
+    // 2. Ricarica la visualizzazione (così sparisce subito)
+    renderAllMoods();
+}
+// Funzione per gestire l'app Calendario
+function initCalendarApp() {
+    const d = new Date();
+    const months = ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"];
+    const days = ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"];
+    
+    // Aggiorna la grafica
+    document.getElementById('curr-month').textContent = months[d.getMonth()];
+    document.getElementById('curr-day').textContent = d.getDate();
+    document.getElementById('curr-weekday').textContent = days[d.getDay()];
+
+    const noteInput = document.getElementById('calNote');
+    const storageKey = 'calendar_note_' + d.toISOString().slice(0, 10); // Chiave unica per giorno
+
+    // Carica la nota salvata per oggi
+    noteInput.value = localStorage.getItem(storageKey) || "";
+
+    // Salva automaticamente mentre scrivi
+    noteInput.addEventListener('input', () => {
+        localStorage.setItem(storageKey, noteInput.value);
+    });
+}
+
+// Avvia l'app al caricamento
+window.addEventListener('DOMContentLoaded', initCalendarApp);
+// le app link e snippet
+// --- LOGICA SNIPPET APP ---
+function saveSnippet() {
+    const input = document.getElementById('snippetInput');
+    const code = input.value.trim();
+    if (!code) return;
+
+    const snippets = JSON.parse(localStorage.getItem('my_snippets')) || [];
+    snippets.push({ id: Date.now(), code: code });
+    localStorage.setItem('my_snippets', JSON.stringify(snippets));
+    
+    input.value = '';
+    renderSnippets();
+}
+
+function renderSnippets() {
+    const list = document.getElementById('snippetList');
+    const snippets = JSON.parse(localStorage.getItem('my_snippets')) || [];
+    list.innerHTML = snippets.map(s => `
+        <div class="snippet-item">
+            <code>${s.code.substring(0, 20)}...</code>
+            <div>
+                <button onclick="copySnippet(\`${s.code.replace(/`/g, '\\`')}\`)" class="text-blue-400 mr-2">📋</button>
+                <button onclick="deleteSnippet(${s.id})" class="text-red-400">✕</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function copySnippet(text) {
+    navigator.clipboard.writeText(text);
+    alert("Codice copiato!");
+}
+
+function deleteSnippet(id) {
+    let snippets = JSON.parse(localStorage.getItem('my_snippets')) || [];
+    snippets = snippets.filter(s => s.id !== id);
+    localStorage.setItem('my_snippets', JSON.stringify(snippets));
+    renderSnippets();
+}
+
+// --- LOGICA LINK APP ---
+function addLink() {
+    const titleIn = document.getElementById('linkTitle');
+    const urlIn = document.getElementById('linkUrl');
+    if (!titleIn.value || !urlIn.value) return;
+
+    const links = JSON.parse(localStorage.getItem('my_links')) || [];
+    links.push({ id: Date.now(), title: titleIn.value, url: urlIn.value });
+    localStorage.setItem('my_links', JSON.stringify(links));
+
+    titleIn.value = ''; urlIn.value = '';
+    renderLinks();
+}
+
+function renderLinks() {
+    const display = document.getElementById('linksDisplay');
+    const links = JSON.parse(localStorage.getItem('my_links')) || [];
+    display.innerHTML = links.map(l => `
+        <div class="link-item">
+            <a href="${l.url}" target="_blank">🔗 ${l.title}</a>
+            <button onclick="deleteLink(${l.id})" class="text-red-500 text-xs">✕</button>
+        </div>
+    `).join('');
+}
+
+function deleteLink(id) {
+    let links = JSON.parse(localStorage.getItem('my_links')) || [];
+    links = links.filter(l => l.id !== id);
+    localStorage.setItem('my_links', JSON.stringify(links));
+    renderLinks();
+}
+
+// Avvia tutto al caricamento
+window.addEventListener('DOMContentLoaded', () => {
+    renderSnippets();
+    renderLinks();
+});
 </script>
 </body>
 </html>
+
+
 
 
