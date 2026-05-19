@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -1532,6 +1533,147 @@
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+/* -- card pennarelli -- >
+/* PORTAPENNE EFFETTO VETRO SATINATO */
+.card-pennarelli {
+    background: rgba(255, 255, 255, 0.1) !important; /* Trasparente */
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px !important;
+    transform: rotate(3deg);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.marker {
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 4px 15px 15px 4px; /* Punta arrotondata */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Riflesso plastico sul pennarello */
+.marker::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+}
+
+.marker:hover {
+    transform: scale(1.08) rotate(-1deg);
+    filter: brightness(1.2);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.marker:active {
+    transform: scale(0.95);
+}
+
+/* Pulsante Mischia stile gomma da cancellare */
+.btn-mischia {
+    background: #e2e8f0;
+    color: #475569;
+    border-bottom: 3px solid #cbd5e1;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 100%;
+}
+/* -- pomodoro -- */
+/* TIMER MECCANICO VINTAGE */
+.card-timer {
+    background: #e2e8f0; /* Grigio metallico */
+    background-image: linear-gradient(145deg, #ffffff, #c1c9d2);
+    border-radius: 50%;
+    width: 160px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 6px solid #94a3b8;
+    position: relative;
+    transform: rotate(5deg);
+    box-shadow: 7px 10px 20px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(255,255,255,0.5);
+margin-left: 500px;
+}
+
+/* La tacca rossa del tempo che scorre */
+.timer-progress {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(#ef4444 var(--perc, 0%), transparent 0%);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.timer-display {
+    font-family: 'Digital-7', 'Courier New', monospace; /* Stile sveglia */
+    font-size: 2.2rem;
+    color: #1e293b;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+    z-index: 2;
+}
+
+.timer-knob {
+    width: 40px;
+    height: 10px;
+    background: #475569;
+    border-radius: 10px;
+    margin-top: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+/* -- radio -- */
+.card-radio {
+    background: #8b4513; /* Legno */
+    background-image: linear-gradient(to bottom, #a0522d, #5d2e14);
+    border: 4px solid #3d1f0a;
+    border-radius: 15px;
+    width: 200px;
+    padding: 15px !important;
+    transform: rotate(-1deg);
+    box-shadow: 10px 10px 25px rgba(0,0,0,0.5);
+    height: 190px;
+}
+.radio-grill {
+    background: radial-gradient(#222 20%, transparent 20%);
+    background-size: 4px 4px;
+    height: 60px;
+    border-radius: 10px;
+    border: 2px inset #3d1f0a;
+    margin-bottom: 10px;
+}
+.radio-controls {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.knob {
+    width: 30px;
+    height: 30px;
+    background: #d4a373;
+    border-radius: 50%;
+    border: 2px solid #3d1f0a;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -1553,8 +1695,32 @@
     <header>
         <h1>Il Mio Multiverso</h1>
         <p>Tutti i miei progetti raccolti sulla mia scrivania digitale.</p>
-
+<div class="app-group card-timer">
+    <div id="timerCircle" class="timer-progress"></div>
+    <div class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Minutes</div>
+    <div class="timer-display" id="timerTime">25:00</div>
+    <div class="timer-knob"></div>
     
+    <div class="flex gap-2 mt-3 z-10">
+        <button onclick="toggleTimer()" id="btnStart" class="bg-slate-700 text-white text-[10px] px-3 py-1 rounded-full uppercase font-bold hover:bg-red-600 transition">Start</button>
+        <button onclick="resetTimer()" class="bg-slate-300 text-slate-700 text-[10px] px-3 py-1 rounded-full uppercase font-bold hover:bg-slate-400 transition">Reset</button>
+    </div>
+</div>
+    <div class="app-group card-radio">
+    <div class="radio-grill"></div>
+    <div class="flex justify-between items-center mb-2">
+        <span id="radioStatus" class="text-[10px] text-orange-200 uppercase font-bold">Offline</span>
+        <div class="w-2 h-2 rounded-full bg-red-600" id="radioLed"></div>
+    </div>
+    <div class="radio-controls-full">
+        <button onclick="prevTrack()" class="text-white/50 hover:text-white">⏮️</button>
+        <button onclick="toggleRadio()" class="knob-full" id="playBtn">▶️</button>
+        <button onclick="nextTrack()" class="text-white/50 hover:text-white">⏭️</button>
+        <input type="range" id="volumeSlider" class="w-16 accent-orange-600" min="0" max="1" step="0.1" value="0.5" oninput="changeVolume()">
+    </div>
+
+    <audio id="bgAudio" onended="nextTrack()"></audio>
+</div>
     </header>
     
     
@@ -2144,7 +2310,17 @@
 
     <p id="statusMsg" class="mt-4 hidden font-bold"></p>
   </div>
-
+<! -- bicchiere -->
+<div class="app-group card-pennarelli">
+    <div class="group-title" style="color: rgba(255,255,255,0.7); font-size: 10px; letter-spacing: 2px;">NEON MARKERS</div>
+    
+    <div id="paletteContainer">
+        </div>
+    
+    <button onclick="generatePalette()" class="btn-mischia">
+        Nuovi Colori 🎨
+    </button>
+</div>
             <!-- IL MODAL PER LE APP (Inizialmente nascosto) -->
     <div id="appModal" class="modal-overlay">
         <div class="modal-content">
@@ -2159,6 +2335,7 @@
         </div>
     </div>
             
+
 
     </main>
 <script>
@@ -2634,10 +2811,182 @@ window.addEventListener('DOMContentLoaded', () => {
     renderSnippets();
     renderLinks();
 });
+// pomodoro e colori 
+// --- LOGICA COLORI ---
+function generatePalette() {
+    const container = document.getElementById('paletteContainer');
+    if(!container) return;
+    
+    container.innerHTML = '';
+    
+    // Generiamo 4 colori vibranti
+    for(let i=0; i<4; i++) {
+        const h = Math.floor(Math.random() * 360);
+        const s = 70 + Math.random() * 30; // Alta saturazione
+        const l = 50 + Math.random() * 20; // Luminosità media
+        const randomColor = `hsl(${h}, ${s}%, ${l}%)`;
+        
+        // Funzione per convertire HSL in HEX per il display
+        const div = document.createElement('div');
+        div.className = 'marker';
+        div.style.backgroundColor = randomColor;
+        
+        // Aspettiamo un attimo per estrarre il colore computato in HEX
+        setTimeout(() => {
+            const hex = rgbToHex(getComputedStyle(div).backgroundColor).toUpperCase();
+            div.innerText = hex;
+            div.onclick = () => {
+                navigator.clipboard.writeText(hex);
+                const originalText = div.innerText;
+                div.innerText = "COPIATO!";
+                setTimeout(() => div.innerText = originalText, 800);
+            };
+        }, 0);
+
+        container.appendChild(div);
+    }
+}
+
+// Funzione di utilità per trasformare RGB in HEX
+function rgbToHex(rgb) {
+    const vals = rgb.match(/\d+/g);
+    return "#" + vals.map(x => {
+        const hex = parseInt(x).toString(16);
+        return hex.length === 1 ? "0" + hex : hex;
+    }).join("");
+}
+
+window.addEventListener('DOMContentLoaded', generatePalette);
+
+// --- LOGICA TIMER ---
+let timerInterval = null;
+let timeLeft = 25 * 60; // 25 minuti in secondi
+let totalTime = 25 * 60;
+let isRunning = false;
+
+function updateTimerDisplay() {
+    const mins = Math.floor(timeLeft / 60);
+    const secs = timeLeft % 60;
+    const timeString = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    
+    // Aggiorna il testo nella card
+    document.getElementById('timerTime').textContent = timeString;
+    // Aggiorna il titolo della scheda del browser
+    document.title = isRunning ? `(${timeString}) Il Mio Hub` : "Il Mio Hub";
+    
+    // Aggiorna il cerchio rosso grafico
+    const percentage = (timeLeft / totalTime) * 100;
+    document.getElementById('timerCircle').style.setProperty('--perc', `${percentage}%`);
+}
+
+function toggleTimer() {
+    const btn = document.getElementById('btnStart');
+    
+    if (isRunning) {
+        // Pausa
+        clearInterval(timerInterval);
+        isRunning = false;
+        btn.textContent = "Start";
+        btn.classList.replace('bg-red-600', 'bg-slate-700');
+    } else {
+        // Avvio
+        isRunning = true;
+        btn.textContent = "Pause";
+        btn.classList.replace('bg-slate-700', 'bg-red-600');
+        
+        timerInterval = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+                isRunning = false;
+                alert("⏰ Tempo scaduto! Fai una pausa.");
+                resetTimer();
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+    isRunning = false;
+    timeLeft = 25 * 60;
+    document.getElementById('btnStart').textContent = "Start";
+    document.getElementById('btnStart').classList.add('bg-slate-700');
+    updateTimerDisplay();
+}
+
+// Inizializza il display al caricamento
+window.addEventListener('DOMContentLoaded', updateTimerDisplay);
+
+// radio
+// Playlist di esempio (puoi cambiare gli URL con i tuoi preferiti)
+const playlist = [
+    { title: "Lofi Study", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+    { title: "Midnight Jazz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+    { title: "Cyberpunk Drift", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+    { title: "Acoustic Morning", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" }
+];
+
+let currentTrackIndex = 0;
+const audio = document.getElementById('bgAudio');
+
+function loadTrack(index) {
+    const track = playlist[index];
+    audio.src = track.url;
+    document.getElementById('radioStatus').textContent = track.title;
+}
+
+function toggleRadio() {
+    const status = document.getElementById('radioStatus');
+    const led = document.getElementById('radioLed');
+    const btn = document.getElementById('playBtn');
+
+    if (audio.src === "" || audio.src === window.location.href) {
+        loadTrack(currentTrackIndex);
+    }
+
+    if (audio.paused) {
+        audio.play();
+        status.style.color = "#4ade80";
+        led.style.backgroundColor = "#22c55e";
+        led.style.boxShadow = "0 0 10px #22c55e";
+        btn.textContent = "⏸️";
+    } else {
+        audio.pause();
+        status.style.color = "#ffd8a8";
+        led.style.backgroundColor = "#991b1b";
+        led.style.boxShadow = "0 0 5px rgba(255,0,0,0.5)";
+        btn.textContent = "▶️";
+    }
+}
+
+function nextTrack() {
+    currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+    loadTrack(currentTrackIndex);
+    audio.play();
+    document.getElementById('playBtn').textContent = "⏸️";
+}
+
+function prevTrack() {
+    currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    loadTrack(currentTrackIndex);
+    audio.play();
+    document.getElementById('playBtn').textContent = "⏸️";
+}
+
+function changeVolume() {
+    audio.volume = document.getElementById('volumeSlider').value;
+}
+
+// Inizializza la prima traccia senza farla partire
+window.addEventListener('DOMContentLoaded', () => {
+    loadTrack(0);
+});
 </script>
 </body>
 </html>
 
-
-
-
+    
